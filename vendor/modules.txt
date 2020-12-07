@@ -113,7 +113,7 @@ github.com/whosonfirst/go-whosonfirst-spatial/flags
 github.com/whosonfirst/go-whosonfirst-spatial/geo
 github.com/whosonfirst/go-whosonfirst-spatial/geojson
 github.com/whosonfirst/go-whosonfirst-spatial/properties
-# github.com/whosonfirst/go-whosonfirst-spatial-database-sqlite v0.0.0-20201207164653-f2d67de6c1c8
+# github.com/whosonfirst/go-whosonfirst-spatial-database-sqlite v0.0.2
 github.com/whosonfirst/go-whosonfirst-spatial-database-sqlite
 # github.com/whosonfirst/go-whosonfirst-spatial-http v0.0.4
 github.com/whosonfirst/go-whosonfirst-spatial-http/api
