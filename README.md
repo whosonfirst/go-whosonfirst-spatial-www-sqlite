@@ -1,5 +1,7 @@
 # go-whosonfirst-spatial-http-sqlite
 
+![](docs/arch.jpg)
+
 ## Important
 
 This is work in progress and not properly documented yet.
