@@ -1,11 +1,14 @@
 package main
 
 import (
+	_ "github.com/whosonfirst/go-whosonfirst-spatial-sqlite"
+)
+
+import (
 	"context"
 	"github.com/whosonfirst/go-whosonfirst-spatial-http/server"
-	"github.com/whosonfirst/go-whosonfirst-spatial/flags"
-	_ "github.com/whosonfirst/go-whosonfirst-spatial-database-sqlite"
-	_ "github.com/whosonfirst/go-whosonfirst-index/fs"	
+	"github.com/whosonfirst/go-whosonfirst-spatial-http/flags"	
+	spatial_flags "github.com/whosonfirst/go-whosonfirst-spatial/flags"
 	"log"
 )
 
@@ -13,7 +16,7 @@ func main() {
 
 	ctx := context.Background()
 
-	fs, err := flags.CommonFlags()
+	fs, err := spatial_flags.CommonFlags()
 
 	if err != nil {
 		log.Fatal(err)
@@ -25,7 +28,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	flags.Parse(fs)
+	spatial_flags.Parse(fs)
 
 	app, err := server.NewHTTPServerApplication(ctx)
 
