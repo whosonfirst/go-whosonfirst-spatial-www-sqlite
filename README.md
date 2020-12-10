@@ -74,7 +74,13 @@ $> bin/server \
 	-mode directory://
 ```
 
-And then when you visit `http://localhost:8080` in your web browser you should see something like this:
+A couple things to note:
+
+* The SQLite databases specified in the `sqlite:///?dsn` string are expected to minimally contain the `rtree` and `geojson` tables confirming to the schemas defined in the [go-whosonfirst-sqlite-features](https://github.com/whosonfirst/go-whosonfirst-sqlite-features). They are typically produced by the [go-whosonfirst-sqlite-features-index](https://github.com/whosonfirst/go-whosonfirst-sqlite-features-index) package.
+
+* Do you notice the way we are passing in a `-mode directory://` flag? This should only be necessary if we are generating, or updating, a SQLite database when the `server` tool starts up. As of this writing it is always necessary even though it doesn't do anything. There is an [open ticket](https://github.com/whosonfirst/go-whosonfirst-spatial/issues/14) to address this.
+
+When you visit `http://localhost:8080` in your web browser you should see something like this:
 
 ![](docs/images/server.png)
 
@@ -169,6 +175,55 @@ $> curl 'http://localhost:8080/api/point-in-polygon?latitude=37.61701894316063&l
     ... and so on
   ]
 }  
+```
+
+If you are returning results as a GeoJSON `FeatureCollection` you may also request additional properties be appended by specifying them as a comma-separated list in the `?properties=` parameter. For example:
+
+```
+$> http://localhost:8080/api/point-in-polygon?latitude=37.61701894316063&longitude=-122.3866653442383&format=geojson&properties=sfomuseum:*
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [ ... ]
+      },
+      "properties": {
+        "mz:is_ceased": 1,
+        "mz:is_current": 0,
+        "mz:is_deprecated": 0,
+        "mz:is_superseded": 1,
+        "mz:is_superseding": 1,
+        "mz:latitude": 37.617037,
+        "mz:longitude": -122.385975,
+        "mz:max_latitude": 37.62120978585632,
+        "mz:max_longitude": -122.38125166743595,
+        "mz:min_latitude": 37.61220882045874,
+        "mz:min_longitude": -122.39033463643914,
+        "mz:uri": "https://data.whosonfirst.org/115/939/632/7/1159396327.geojson",
+        "sfomuseum:building_id": "SFO",
+        "sfomuseum:is_sfo": 1,
+        "sfomuseum:placetype": "building",
+        "wof:country": "US",
+        "wof:id": 1159396327,
+        "wof:lastmodified": 1547232162,
+        "wof:name": "SFO Terminal Complex",
+        "wof:parent_id": 102527513,
+        "wof:path": "115/939/632/7/1159396327.geojson",
+        "wof:placetype": "building",
+        "wof:repo": "sfomuseum-data-architecture",
+        "wof:superseded_by": [
+          1159554801
+        ],
+        "wof:supersedes": [
+          1159396331
+        ]
+      }
+    }... and so on
+  ]
+}
 ```
 
 ## See also
