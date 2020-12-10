@@ -98,6 +98,7 @@ $> bin/server \
 	-enable-properties \
 	-spatial-database-uri 'sqlite:///?dsn=/usr/local/data/sfomuseum-data-architecture.db' \
 	-properties-reader-uri 'sqlite:///?dsn=/usr/local/data/sfomuseum-data-architecture.db' \
+	-enable-geojson \
 	-mode directory://
 ```
 
