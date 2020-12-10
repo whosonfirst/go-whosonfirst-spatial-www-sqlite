@@ -6,10 +6,17 @@ This is work in progress and not properly documented yet.
 
 ## Tools
 
+To build binary versions of these tools run the `cli` Makefile target. For example:
+
+```
+$> make cli
+go build -mod vendor -o bin/server cmd/server/main.go
+```
+
 ### server
 
 ```
-> ./bin/server -h
+$> ./bin/server -h
   -custom-placetypes string
     	...
   -custom-placetypes-source string
@@ -131,7 +138,8 @@ $> curl 'http://localhost:8080/api/point-in-polygon?latitude=37.61701894316063&l
 }    
 ```
 
-Or:
+By default, results are returned as a list of ["standard places response"](https://github.com/whosonfirst/go-whosonfirst-spr/) (SPR) elements. You can also return results as a GeoJSON `FeatureCollection` by including a `format=geojson` query parameter. For example:
+
 
 ```
 $> curl 'http://localhost:8080/api/point-in-polygon?latitude=37.61701894316063&longitude=-122.3866653442383&format=geojson'
@@ -231,5 +239,6 @@ $> http://localhost:8080/api/point-in-polygon?latitude=37.61701894316063&longitu
 * https://github.com/whosonfirst/go-whosonfirst-spatial
 * https://github.com/whosonfirst/go-whosonfirst-spatial-http
 * https://github.com/whosonfirst/go-whosonfirst-spatial-sqlite
+* https://github.com/whosonfirst/go-whosonfirst-spr
 * https://github.com/whosonfirst/go-whosonfirst-sqlite-features-index
 * https://developers.nextzen.org/
