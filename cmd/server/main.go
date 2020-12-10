@@ -1,13 +1,13 @@
 package main
 
-import (
-	_ "github.com/whosonfirst/go-whosonfirst-spatial-sqlite"
-)
+import ()
 
 import (
 	"context"
+	_ "github.com/whosonfirst/go-whosonfirst-index/fs"
+	"github.com/whosonfirst/go-whosonfirst-spatial-http/flags"
 	"github.com/whosonfirst/go-whosonfirst-spatial-http/server"
-	"github.com/whosonfirst/go-whosonfirst-spatial-http/flags"	
+	_ "github.com/whosonfirst/go-whosonfirst-spatial-sqlite"
 	spatial_flags "github.com/whosonfirst/go-whosonfirst-spatial/flags"
 	"log"
 )
