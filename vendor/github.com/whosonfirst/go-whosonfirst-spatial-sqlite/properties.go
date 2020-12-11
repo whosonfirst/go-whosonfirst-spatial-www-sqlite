@@ -14,7 +14,6 @@ import (
 	"github.com/whosonfirst/go-whosonfirst-sqlite-features/tables"
 	sqlite_database "github.com/whosonfirst/go-whosonfirst-sqlite/database"
 	"net/url"
-	_ "log"
 )
 
 type SQLitePropertiesReader struct {

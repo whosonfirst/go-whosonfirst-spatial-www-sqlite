@@ -470,15 +470,11 @@ func (db *SQLiteSpatialDatabase) StandardPlacesResultsToFeatureCollection(ctx co
 
 	features := make([]geojson.GeoJSONFeature, 0)
 
-	golog.Println("RESULTS", len(results.Results()))
-	
 	for _, r := range results.Results() {
 
 		select {
 		case <-ctx.Done():
-			golog.Println("CTX DONE")
-			// return nil, nil
-			break 
+			return nil, nil
 		default:
 			// pass
 		}
@@ -498,7 +494,7 @@ func (db *SQLiteSpatialDatabase) StandardPlacesResultsToFeatureCollection(ctx co
 
 		features = append(features, f)
 	}
-	
+
 	pg := geojson.Pagination{
 		TotalCount: len(features),
 		Page:       1,

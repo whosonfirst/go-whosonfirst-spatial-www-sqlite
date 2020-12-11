@@ -7,9 +7,8 @@ import (
 	"github.com/whosonfirst/go-whosonfirst-spatial/app"
 	"github.com/whosonfirst/go-whosonfirst-spatial/filter"
 	"github.com/whosonfirst/go-whosonfirst-spr"
-	"log"
+	_ "log"
 	"net/http"
-	"time"
 )
 
 type PointInPolygonHandlerOptions struct {
@@ -25,12 +24,6 @@ func PointInPolygonHandler(spatial_app *app.SpatialApplication, opts *PointInPol
 
 	fn := func(rsp http.ResponseWriter, req *http.Request) {
 
-		t1 := time.Now()
-
-		defer func(){
-			log.Printf("TIME TO HANDLE REQUEST %v\n", time.Since(t1))
-		}()
-		
 		if walker.IsIndexing() {
 			http.Error(rsp, "indexing records", http.StatusServiceUnavailable)
 			return
@@ -84,8 +77,6 @@ func PointInPolygonHandler(spatial_app *app.SpatialApplication, opts *PointInPol
 			return
 		}
 
-		log.Printf("Time to PIP %v\n", time.Since(t1))
-		
 		var final interface{}
 		final = results
 
@@ -99,8 +90,6 @@ func PointInPolygonHandler(spatial_app *app.SpatialApplication, opts *PointInPol
 				return
 			}
 
-			log.Printf("Time to SPR %v\n", time.Since(t1))
-			
 			err = properties_r.AppendPropertiesWithFeatureCollection(ctx, collection, properties_paths)
 
 			if err != nil {

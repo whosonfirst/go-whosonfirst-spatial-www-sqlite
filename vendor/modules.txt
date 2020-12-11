@@ -59,7 +59,7 @@ github.com/whosonfirst/go-whosonfirst-crawl
 github.com/whosonfirst/go-whosonfirst-flags
 github.com/whosonfirst/go-whosonfirst-flags/existential
 github.com/whosonfirst/go-whosonfirst-flags/placetypes
-# github.com/whosonfirst/go-whosonfirst-geojson-v2 v0.12.5
+# github.com/whosonfirst/go-whosonfirst-geojson-v2 v0.13.0
 github.com/whosonfirst/go-whosonfirst-geojson-v2
 github.com/whosonfirst/go-whosonfirst-geojson-v2/feature
 github.com/whosonfirst/go-whosonfirst-geojson-v2/geometry
@@ -100,7 +100,7 @@ github.com/whosonfirst/go-whosonfirst-spatial-http/flags
 github.com/whosonfirst/go-whosonfirst-spatial-http/health
 github.com/whosonfirst/go-whosonfirst-spatial-http/http
 github.com/whosonfirst/go-whosonfirst-spatial-http/server
-# github.com/whosonfirst/go-whosonfirst-spatial-sqlite v0.0.4
+# github.com/whosonfirst/go-whosonfirst-spatial-sqlite v0.0.5
 github.com/whosonfirst/go-whosonfirst-spatial-sqlite
 # github.com/whosonfirst/go-whosonfirst-spr v0.1.0
 github.com/whosonfirst/go-whosonfirst-spr

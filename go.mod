@@ -6,5 +6,5 @@ require (
 	github.com/whosonfirst/go-whosonfirst-index v0.3.2
 	github.com/whosonfirst/go-whosonfirst-spatial v0.0.8
 	github.com/whosonfirst/go-whosonfirst-spatial-http v0.0.5
-	github.com/whosonfirst/go-whosonfirst-spatial-sqlite v0.0.4
+	github.com/whosonfirst/go-whosonfirst-spatial-sqlite v0.0.5
 )
