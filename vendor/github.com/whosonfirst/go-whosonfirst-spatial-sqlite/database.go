@@ -498,8 +498,6 @@ func (db *SQLiteSpatialDatabase) StandardPlacesResultsToFeatureCollection(ctx co
 
 		features = append(features, f)
 	}
-
-	golog.Println("WHAT", len(features))
 	
 	pg := geojson.Pagination{
 		TotalCount: len(features),
