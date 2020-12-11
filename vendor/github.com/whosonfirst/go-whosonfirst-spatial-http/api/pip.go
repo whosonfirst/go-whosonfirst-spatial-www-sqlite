@@ -7,7 +7,7 @@ import (
 	"github.com/whosonfirst/go-whosonfirst-spatial/app"
 	"github.com/whosonfirst/go-whosonfirst-spatial/filter"
 	"github.com/whosonfirst/go-whosonfirst-spr"
-	_ "log"
+	"log"
 	"net/http"
 )
 
@@ -90,6 +90,8 @@ func PointInPolygonHandler(spatial_app *app.SpatialApplication, opts *PointInPol
 				return
 			}
 
+			log.Println("PIP WTF", collection, err)
+			
 			err = properties_r.AppendPropertiesWithFeatureCollection(ctx, collection, properties_paths)
 
 			if err != nil {

@@ -14,6 +14,7 @@ import (
 	"github.com/whosonfirst/go-whosonfirst-sqlite-features/tables"
 	sqlite_database "github.com/whosonfirst/go-whosonfirst-sqlite/database"
 	"net/url"
+	"log"
 )
 
 type SQLitePropertiesReader struct {
@@ -133,6 +134,8 @@ func (pr *SQLitePropertiesReader) PropertiesResponseResultsWithStandardPlacesRes
 
 func (pr *SQLitePropertiesReader) AppendPropertiesWithFeatureCollection(ctx context.Context, fc *geojson.GeoJSONFeatureCollection, properties []string) error {
 
+	log.Println("FC", fc)
+	
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
 
