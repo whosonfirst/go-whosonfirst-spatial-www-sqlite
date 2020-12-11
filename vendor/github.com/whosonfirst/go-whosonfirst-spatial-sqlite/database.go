@@ -19,7 +19,6 @@ import (
 	"github.com/whosonfirst/go-whosonfirst-spatial/filter"
 	"github.com/whosonfirst/go-whosonfirst-spatial/geojson"
 	"github.com/whosonfirst/go-whosonfirst-spr"
-	"github.com/whosonfirst/go-whosonfirst-uri"	
 	"github.com/whosonfirst/go-whosonfirst-sqlite"
 	"github.com/whosonfirst/go-whosonfirst-sqlite-features/tables"
 	sqlite_database "github.com/whosonfirst/go-whosonfirst-sqlite/database"
@@ -46,23 +45,12 @@ type SQLiteSpatialDatabase struct {
 }
 
 type RTreeSpatialIndex struct {
-	bounds   geom.Rect
-	Id       string
-	IsAlt    bool
-	AltLabel string
+	bounds geom.Rect
+	Id     string
 }
 
 func (sp RTreeSpatialIndex) Bounds() geom.Rect {
 	return sp.bounds
-}
-
-func (sp RTreeSpatialIndex) Path() string {
-
-	if sp.IsAlt {
-		return fmt.Sprintf("%s-%s", sp.Id, sp.AltLabel)
-	}
-	
-	return sp.Id
 }
 
 type SQLiteResults struct {
@@ -136,6 +124,15 @@ func (r *SQLiteSpatialDatabase) Close(ctx context.Context) error {
 }
 
 func (r *SQLiteSpatialDatabase) IndexFeature(ctx context.Context, f wof_geojson.Feature) error {
+
+	/*
+		bboxes, err := f.BoundingBoxes()
+
+		if err != nil {
+			return err
+		}
+
+	*/
 
 	err := r.setSPRCacheItem(ctx, f)
 
@@ -327,7 +324,7 @@ func (r *SQLiteSpatialDatabase) getIntersectsByRect(ctx context.Context, rect *g
 		return nil, err
 	}
 
-	q := fmt.Sprintf("SELECT id, wof_id, is_alt, alt_label, min_x, min_y, max_x, max_y FROM %s  WHERE max_x <= ?  AND min_x >= ?  AND max_y <= ? AND min_y >= ?", r.rtree_table.Name())
+	q := fmt.Sprintf("SELECT id, min_x, min_y, max_x, max_y FROM %s  WHERE max_x >= ?  AND min_x <= ?  AND max_y >= ? AND min_y <= ?", r.rtree_table.Name())
 
 	rows, err := conn.QueryContext(ctx, q, rect.Max.X, rect.Min.Y, rect.Max.Y, rect.Min.Y)
 
@@ -342,15 +339,12 @@ func (r *SQLiteSpatialDatabase) getIntersectsByRect(ctx context.Context, rect *g
 	for rows.Next() {
 
 		var id string
-		var wof_id string
-		var is_alt int32
-		var alt_label string
 		var minx float64
 		var miny float64
 		var maxx float64
 		var maxy float64
 
-		err := rows.Scan(&id, &wof_id, is_alt, alt_label, &minx, &miny, &maxx, &maxy)
+		err := rows.Scan(&id, &minx, &miny, &maxx, &maxy)
 
 		if err != nil {
 			return nil, err
@@ -372,13 +366,8 @@ func (r *SQLiteSpatialDatabase) getIntersectsByRect(ctx context.Context, rect *g
 		}
 
 		i := &RTreeSpatialIndex{
-			Id:     wof_id,
+			Id:     id,
 			bounds: rect,
-		}
-
-		if is_alt == 1 {
-			i.IsAlt = true
-			i.AltLabel = alt_label
 		}
 
 		intersects = append(intersects, i)
@@ -409,7 +398,7 @@ func (r *SQLiteSpatialDatabase) inflateResultsWithChannels(ctx context.Context, 
 				// pass
 			}
 
-			str_id := fmt.Sprintf("%s:%s", sp.Id, sp.AltLabel)
+			str_id := sp.Id
 
 			mu.RLock()
 			_, ok := seen[str_id]
@@ -423,7 +412,7 @@ func (r *SQLiteSpatialDatabase) inflateResultsWithChannels(ctx context.Context, 
 			seen[str_id] = true
 			mu.Unlock()
 
-			fc, err := r.retrieveSPRCacheItem(ctx, sp.Path())
+			fc, err := r.retrieveSPRCacheItem(ctx, str_id)
 
 			if err != nil {
 				r.Logger.Error("Failed to retrieve feature cache for %s, %v", str_id, err)
@@ -433,7 +422,6 @@ func (r *SQLiteSpatialDatabase) inflateResultsWithChannels(ctx context.Context, 
 			s := fc.SPR()
 
 			for _, f := range filters {
-				
 				err = filter.FilterSPR(f, s)
 
 				if err != nil {
@@ -476,7 +464,7 @@ func (db *SQLiteSpatialDatabase) StandardPlacesResultsToFeatureCollection(ctx co
 			// pass
 		}
 
-		fc, err := db.retrieveSPRCacheItem(ctx, r.Path())
+		fc, err := db.retrieveSPRCacheItem(ctx, r.Id())
 
 		if err != nil {
 			return nil, err
@@ -512,39 +500,17 @@ func (r *SQLiteSpatialDatabase) setSPRCacheItem(ctx context.Context, f wof_geojs
 	return r.geojson_table.IndexRecord(r.db, f)
 }
 
-func (r *SQLiteSpatialDatabase) retrieveSPRCacheItem(ctx context.Context, uri_str string) (*cache.SPRCacheItem, error) {
+func (r *SQLiteSpatialDatabase) retrieveSPRCacheItem(ctx context.Context, str_id string) (*cache.SPRCacheItem, error) {
 
-	id, uri_args, err := uri.ParseURI(uri_str)
-
-	if err != nil {
-		return nil, err
-	}
-	
 	conn, err := r.db.Conn()
 
 	if err != nil {
 		return nil, err
 	}
 
-	args := []interface{}{
-		id,
-	}
-	
 	q := fmt.Sprintf("SELECT body FROM %s WHERE id = ?", r.geojson_table.Name())
 
-	if uri_args.IsAlternate {
-
-		source, err := uri_args.AltGeom.String()
-
-		if err != nil {
-			return nil, err
-		}
-
-		q = fmt.Sprintf("%s AND is_alt=1 AND source = ?", q)
-		args = append(args, source)
-	}
-	
-	row := conn.QueryRowContext(ctx, q, args...)
+	row := conn.QueryRowContext(ctx, q, str_id)
 
 	var body string
 
