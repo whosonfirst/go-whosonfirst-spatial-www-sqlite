@@ -31,6 +31,8 @@ github.com/mattn/go-sqlite3
 github.com/mmcloughlin/geohash
 # github.com/patrickmn/go-cache v2.1.0+incompatible
 github.com/patrickmn/go-cache
+# github.com/paulmach/go.geojson v1.4.0
+github.com/paulmach/go.geojson
 # github.com/rs/cors v1.7.0
 github.com/rs/cors
 # github.com/skelterjohn/geom v0.0.0-20180103142417-96f3e8a219c5
@@ -63,7 +65,7 @@ github.com/whosonfirst/go-whosonfirst-crawl
 github.com/whosonfirst/go-whosonfirst-flags
 github.com/whosonfirst/go-whosonfirst-flags/existential
 github.com/whosonfirst/go-whosonfirst-flags/placetypes
-# github.com/whosonfirst/go-whosonfirst-geojson-v2 v0.13.0
+# github.com/whosonfirst/go-whosonfirst-geojson-v2 v0.14.0
 github.com/whosonfirst/go-whosonfirst-geojson-v2
 github.com/whosonfirst/go-whosonfirst-geojson-v2/feature
 github.com/whosonfirst/go-whosonfirst-geojson-v2/geometry
@@ -86,14 +88,13 @@ github.com/whosonfirst/go-whosonfirst-placetypes/placetypes
 # github.com/whosonfirst/go-whosonfirst-sources v0.1.0
 github.com/whosonfirst/go-whosonfirst-sources
 github.com/whosonfirst/go-whosonfirst-sources/sources
-# github.com/whosonfirst/go-whosonfirst-spatial v0.0.8
+# github.com/whosonfirst/go-whosonfirst-spatial v0.0.11
 github.com/whosonfirst/go-whosonfirst-spatial/app
 github.com/whosonfirst/go-whosonfirst-spatial/cache
 github.com/whosonfirst/go-whosonfirst-spatial/database
 github.com/whosonfirst/go-whosonfirst-spatial/filter
 github.com/whosonfirst/go-whosonfirst-spatial/flags
 github.com/whosonfirst/go-whosonfirst-spatial/geo
-github.com/whosonfirst/go-whosonfirst-spatial/geojson
 github.com/whosonfirst/go-whosonfirst-spatial/properties
 # github.com/whosonfirst/go-whosonfirst-spatial-http v0.0.7
 github.com/whosonfirst/go-whosonfirst-spatial-http/api
@@ -104,7 +105,7 @@ github.com/whosonfirst/go-whosonfirst-spatial-http/flags
 github.com/whosonfirst/go-whosonfirst-spatial-http/health
 github.com/whosonfirst/go-whosonfirst-spatial-http/http
 github.com/whosonfirst/go-whosonfirst-spatial-http/server
-# github.com/whosonfirst/go-whosonfirst-spatial-sqlite v0.0.6
+# github.com/whosonfirst/go-whosonfirst-spatial-sqlite v0.0.8
 github.com/whosonfirst/go-whosonfirst-spatial-sqlite
 # github.com/whosonfirst/go-whosonfirst-spr v0.1.0
 github.com/whosonfirst/go-whosonfirst-spr
@@ -112,7 +113,7 @@ github.com/whosonfirst/go-whosonfirst-spr
 github.com/whosonfirst/go-whosonfirst-sqlite
 github.com/whosonfirst/go-whosonfirst-sqlite/database
 github.com/whosonfirst/go-whosonfirst-sqlite/utils
-# github.com/whosonfirst/go-whosonfirst-sqlite-features v0.4.0
+# github.com/whosonfirst/go-whosonfirst-sqlite-features v0.6.2
 github.com/whosonfirst/go-whosonfirst-sqlite-features
 github.com/whosonfirst/go-whosonfirst-sqlite-features/tables
 # github.com/whosonfirst/go-whosonfirst-uri v0.2.0

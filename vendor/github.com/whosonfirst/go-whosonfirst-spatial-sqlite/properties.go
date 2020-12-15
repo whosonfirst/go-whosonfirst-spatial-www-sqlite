@@ -5,9 +5,9 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/paulmach/go.geojson"
 	"github.com/tidwall/gjson"
 	wof_geojson "github.com/whosonfirst/go-whosonfirst-geojson-v2"
-	"github.com/whosonfirst/go-whosonfirst-spatial/geojson"
 	spatial_properties "github.com/whosonfirst/go-whosonfirst-spatial/properties"
 	"github.com/whosonfirst/go-whosonfirst-spr"
 	"github.com/whosonfirst/go-whosonfirst-sqlite"
@@ -18,9 +18,9 @@ import (
 
 type SQLitePropertiesReader struct {
 	spatial_properties.PropertiesReader
-	db            *sqlite_database.SQLiteDatabase
-	geojson_table sqlite.Table
-	dsn           string
+	db               *sqlite_database.SQLiteDatabase
+	properties_table sqlite.Table
+	dsn              string
 }
 
 func init() {
@@ -50,16 +50,16 @@ func NewSQLitePropertiesReader(ctx context.Context, uri string) (spatial_propert
 		return nil, err
 	}
 
-	geojson_table, err := tables.NewGeoJSONTableWithDatabase(sqlite_db)
+	properties_table, err := tables.NewPropertiesTableWithDatabase(sqlite_db)
 
 	if err != nil {
 		return nil, err
 	}
 
 	pr := &SQLitePropertiesReader{
-		dsn:           dsn,
-		geojson_table: geojson_table,
-		db:            sqlite_db,
+		dsn:              dsn,
+		properties_table: properties_table,
+		db:               sqlite_db,
 	}
 
 	return pr, nil
@@ -67,7 +67,7 @@ func NewSQLitePropertiesReader(ctx context.Context, uri string) (spatial_propert
 
 func (pr *SQLitePropertiesReader) IndexFeature(ctx context.Context, f wof_geojson.Feature) error {
 
-	return pr.geojson_table.IndexRecord(pr.db, f)
+	return pr.properties_table.IndexRecord(pr.db, f)
 }
 
 func (pr *SQLitePropertiesReader) PropertiesResponseResultsWithStandardPlacesResults(ctx context.Context, results spr.StandardPlacesResults, properties []string) (*spatial_properties.PropertiesResponseResults, error) {
@@ -94,7 +94,7 @@ func (pr *SQLitePropertiesReader) PropertiesResponseResultsWithStandardPlacesRes
 
 		str_id := r.Id()
 
-		q := fmt.Sprintf("SELECT body FROM %s WHERE id = ?", pr.geojson_table.Name())
+		q := fmt.Sprintf("SELECT body FROM %s WHERE id = ?", pr.properties_table.Name())
 
 		row := conn.QueryRowContext(ctx, q, str_id)
 
@@ -131,7 +131,7 @@ func (pr *SQLitePropertiesReader) PropertiesResponseResultsWithStandardPlacesRes
 	return props_rsp, nil
 }
 
-func (pr *SQLitePropertiesReader) AppendPropertiesWithFeatureCollection(ctx context.Context, fc *geojson.GeoJSONFeatureCollection, properties []string) error {
+func (pr *SQLitePropertiesReader) AppendPropertiesWithFeatureCollection(ctx context.Context, fc *geojson.FeatureCollection, properties []string) error {
 
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
@@ -168,7 +168,7 @@ func (pr *SQLitePropertiesReader) Close(ctx context.Context) error {
 	return pr.db.Close()
 }
 
-func (pr *SQLitePropertiesReader) appendPropertiesWithChannels(ctx context.Context, idx int, f geojson.GeoJSONFeature, properties []string, rsp_ch chan spatial_properties.ChannelResponse, err_ch chan error, done_ch chan bool) {
+func (pr *SQLitePropertiesReader) appendPropertiesWithChannels(ctx context.Context, idx int, f *geojson.Feature, properties []string, rsp_ch chan spatial_properties.ChannelResponse, err_ch chan error, done_ch chan bool) {
 
 	defer func() {
 		done_ch <- true
@@ -195,7 +195,7 @@ func (pr *SQLitePropertiesReader) appendPropertiesWithChannels(ctx context.Conte
 		return
 	}
 
-	id_rsp := gjson.GetBytes(target, "properties.wof:id")
+	id_rsp := gjson.GetBytes(target, "wof:id")
 
 	if !id_rsp.Exists() {
 		err_ch <- errors.New("Missing wof:id")
@@ -204,7 +204,7 @@ func (pr *SQLitePropertiesReader) appendPropertiesWithChannels(ctx context.Conte
 
 	str_id := id_rsp.String()
 
-	q := fmt.Sprintf("SELECT body FROM %s WHERE id = ?", pr.geojson_table.Name())
+	q := fmt.Sprintf("SELECT body FROM %s WHERE id = ?", pr.properties_table.Name())
 
 	row := conn.QueryRowContext(ctx, q, str_id)
 
@@ -219,14 +219,14 @@ func (pr *SQLitePropertiesReader) appendPropertiesWithChannels(ctx context.Conte
 
 	source := []byte(body)
 
-	target, err = spatial_properties.AppendPropertiesWithJSON(ctx, source, target, properties, "properties")
+	target, err = spatial_properties.AppendPropertiesWithJSON(ctx, source, target, properties, "")
 
 	if err != nil {
 		err_ch <- err
 		return
 	}
 
-	var new_f geojson.GeoJSONFeature
+	var new_f *geojson.Feature
 	err = json.Unmarshal(target, &new_f)
 
 	if err != nil {
