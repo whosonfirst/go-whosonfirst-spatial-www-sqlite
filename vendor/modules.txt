@@ -96,7 +96,7 @@ github.com/whosonfirst/go-whosonfirst-spatial/filter
 github.com/whosonfirst/go-whosonfirst-spatial/flags
 github.com/whosonfirst/go-whosonfirst-spatial/geo
 github.com/whosonfirst/go-whosonfirst-spatial/properties
-# github.com/whosonfirst/go-whosonfirst-spatial-http v0.0.7
+# github.com/whosonfirst/go-whosonfirst-spatial-http v0.0.8
 github.com/whosonfirst/go-whosonfirst-spatial-http/api
 github.com/whosonfirst/go-whosonfirst-spatial-http/api/output
 github.com/whosonfirst/go-whosonfirst-spatial-http/api/parameters
@@ -105,7 +105,7 @@ github.com/whosonfirst/go-whosonfirst-spatial-http/flags
 github.com/whosonfirst/go-whosonfirst-spatial-http/health
 github.com/whosonfirst/go-whosonfirst-spatial-http/http
 github.com/whosonfirst/go-whosonfirst-spatial-http/server
-# github.com/whosonfirst/go-whosonfirst-spatial-sqlite v0.0.8
+# github.com/whosonfirst/go-whosonfirst-spatial-sqlite v0.0.10
 github.com/whosonfirst/go-whosonfirst-spatial-sqlite
 # github.com/whosonfirst/go-whosonfirst-spr v0.1.0
 github.com/whosonfirst/go-whosonfirst-spr
