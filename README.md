@@ -105,7 +105,7 @@ $> bin/server \
 And then to query the point-in-polygon API you would do something like this:
 
 ```
-$> curl 'http://localhost:8080/api/point-in-polygon?latitude=37.61701894316063&longitude=-122.3866653442383'
+$> curl -s 'http://localhost:8080/api/point-in-polygon?latitude=37.61701894316063&longitude=-122.3866653442383'
 
 {
   "places": [
@@ -143,7 +143,7 @@ By default, results are returned as a list of ["standard places response"](https
 
 
 ```
-$> curl 'http://localhost:8080/api/point-in-polygon?latitude=37.61701894316063&longitude=-122.3866653442383&format=geojson'
+$> curl -s 'http://localhost:8080/api/point-in-polygon?latitude=37.61701894316063&longitude=-122.3866653442383&format=geojson'
 
 {
   "type": "FeatureCollection",
@@ -189,7 +189,7 @@ $> curl 'http://localhost:8080/api/point-in-polygon?latitude=37.61701894316063&l
 If you are returning results as a GeoJSON `FeatureCollection` you may also request additional properties be appended by specifying them as a comma-separated list in the `?properties=` parameter. For example:
 
 ```
-$> http://localhost:8080/api/point-in-polygon?latitude=37.61701894316063&longitude=-122.3866653442383&format=geojson&properties=sfomuseum:*
+$> curl -s http://localhost:8080/api/point-in-polygon?latitude=37.61701894316063&longitude=-122.3866653442383&format=geojson&properties=sfomuseum:*
 {
   "type": "FeatureCollection",
   "features": [
@@ -231,6 +231,39 @@ $> http://localhost:8080/api/point-in-polygon?latitude=37.61701894316063&longitu
         ]
       }
     }... and so on
+  ]
+}
+```
+
+To return just the `properties` dictionary for results pass along the `?format=properties` parameter. For example:
+
+```
+$> curl -s 'http://localhost:8080/api/point-in-polygon?latitude=37.61701894316063&longitude=-122.3866653442383&format=properties&properties=sfomuseum:*' | jq
+
+{
+  "properties": [
+    {
+      "mz:is_ceased": 1,
+      "mz:is_current": 1,
+      "mz:is_deprecated": 0,
+      "mz:is_superseded": 0,
+      "mz:is_superseding": 0,
+      "mz:latitude": 37.616359,
+      "mz:longitude": -122.386105,
+      "mz:max_latitude": -122.38789520924678,
+      "mz:max_longitude": -122.38437148963614,
+      "mz:min_latitude": 37.61497255972697,
+      "mz:min_longitude": 37.616359,
+      "sfomuseum:placetype": "garage",
+      "wof:country": "US",
+      "wof:id": "1477856011",
+      "wof:lastmodified": 1568838528,
+      "wof:name": "Central Parking Garage",
+      "wof:parent_id": "102527513",
+      "wof:path": "147/785/601/1/1477856011.geojson",
+      "wof:placetype": "building",
+      "wof:repo": "sfomuseum-data-architecture"
+    }
   ]
 }
 ```
