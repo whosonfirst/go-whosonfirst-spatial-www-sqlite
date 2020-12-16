@@ -191,6 +191,8 @@ github.com/whosonfirst/go-whosonfirst-spatial v0.0.8 h1:OQb56QtPbRE9VPsqQYg8lvts
 github.com/whosonfirst/go-whosonfirst-spatial v0.0.8/go.mod h1:h8MYSHoAPrWsNA6zVOOa5vr/TRvGhf068741Z1CMOd8=
 github.com/whosonfirst/go-whosonfirst-spatial v0.0.11 h1:TYATIBYv/h8y1IyjbcQehACkKjgz7lEijvcbfDCHrWk=
 github.com/whosonfirst/go-whosonfirst-spatial v0.0.11/go.mod h1:PywJosSLB0RCNgTPyWgQ+gMjxRj8Uw3hX3zPa+JZKug=
+github.com/whosonfirst/go-whosonfirst-spatial v0.0.12 h1:Hl++UT0fye7f4c9/IxI7pAX5PK8Xg2U4hWNHs/+ezkw=
+github.com/whosonfirst/go-whosonfirst-spatial v0.0.12/go.mod h1:PywJosSLB0RCNgTPyWgQ+gMjxRj8Uw3hX3zPa+JZKug=
 github.com/whosonfirst/go-whosonfirst-spatial-database-sqlite v0.0.0-20201207155118-d147a7b9d4cb h1:KdvNx2HAjX5XcH4JKH/qe0qNuKfXaU17eRNFP+CEwe8=
 github.com/whosonfirst/go-whosonfirst-spatial-database-sqlite v0.0.0-20201207155118-d147a7b9d4cb/go.mod h1:XaXDtQxqRQd0w3J9Xm6QAFRoLlzy52kVZNy5SnZXzz8=
 github.com/whosonfirst/go-whosonfirst-spatial-database-sqlite v0.0.0-20201207164653-f2d67de6c1c8 h1:m7V7vbYqkR4i+UJpJcvgWGL6E3LpCLwh0T+VW4xJ1q0=
@@ -225,6 +227,8 @@ github.com/whosonfirst/go-whosonfirst-spatial-sqlite v0.0.9 h1:pyHj92haGINryuTsA
 github.com/whosonfirst/go-whosonfirst-spatial-sqlite v0.0.9/go.mod h1:PTAZrRhqQGywhW+AseQxtX0hFEwGDLbwHCv/2H1krUM=
 github.com/whosonfirst/go-whosonfirst-spatial-sqlite v0.0.10 h1:JMVAl0SBF2s0P1EUpZXdrJsRfGTd1gbbKw8D7oyUZJ8=
 github.com/whosonfirst/go-whosonfirst-spatial-sqlite v0.0.10/go.mod h1:PTAZrRhqQGywhW+AseQxtX0hFEwGDLbwHCv/2H1krUM=
+github.com/whosonfirst/go-whosonfirst-spatial-sqlite v0.0.11 h1:IdheYPtNIHzJGRzHpMek31h7FsZjZXznqQoeQJJY76I=
+github.com/whosonfirst/go-whosonfirst-spatial-sqlite v0.0.11/go.mod h1:oBMclXsnfpD1OA5FlAf+iC4/fy9mL99qf3Jnbrl/yHE=
 github.com/whosonfirst/go-whosonfirst-spr v0.1.0 h1:5qE629nCiucF2upy5NjPOEl9cFatsljykYY0l2JKgAk=
 github.com/whosonfirst/go-whosonfirst-spr v0.1.0/go.mod h1:R8GtEVz1GVSnwwOjzcoVUd172ZK26Q7hQSLI6SGG7lM=
 github.com/whosonfirst/go-whosonfirst-sqlite v0.1.5/go.mod h1:JGveApxJW/FUeB+LQxxX0U8kSunVP7NiurXP/aUo/0g=
