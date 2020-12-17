@@ -353,5 +353,7 @@ GeoJSON results are noticeably slower than SPR results, particularly for feature
 * https://github.com/whosonfirst/go-whosonfirst-spatial-sqlite
 * https://github.com/whosonfirst/go-whosonfirst-spr
 * https://github.com/whosonfirst/go-whosonfirst-spr-geojson
+* https://github.com/whosonfirst/go-reader
+* https://github.com/whosonfirst/go-reader-database-sql
 * https://github.com/whosonfirst/go-whosonfirst-sqlite-features-index
 * https://developers.nextzen.org/
