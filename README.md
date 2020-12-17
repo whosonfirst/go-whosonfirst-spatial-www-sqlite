@@ -33,6 +33,8 @@ $> ./bin/server -h
     	Enable the interactive /debug endpoint to query points and display results.
   -exclude value
     	Exclude (WOF) records based on their existential flags. Valid options are: ceased, deprecated, not-current, superseded.
+  -geojson-reader-uri string
+    	A valid whosonfirst/go-reader.Reader URI. Required if the -enable-geojson or -enable-www flags are set.
   -initial-latitude float
     	... (default 37.616906)
   -initial-longitude float
@@ -73,8 +75,9 @@ For example:
 
 ```
 $> bin/server \
-	-enable-www \
+	-enable-www \	
 	-enable-properties \
+	-geojson-reader-uri 'sql://sqlite3/geojson/id/body?dsn=/usr/local/data/sfomuseum-data-architecture.db' \	
 	-spatial-database-uri 'sqlite:///?dsn=/usr/local/data/sfomuseum-data-architecture.db' \
 	-properties-reader-uri 'sqlite:///?dsn=/usr/local/data/sfomuseum-data-architecture.db' \
 	-nextzen-apikey {NEXT_APIKEY} \
@@ -96,9 +99,10 @@ If you don't need, or want, to expose a user-facing interface simply remove the 
 ```
 $> bin/server \
 	-enable-properties \
+	-enable-geojson \	
 	-spatial-database-uri 'sqlite:///?dsn=/usr/local/data/sfomuseum-data-architecture.db' \
 	-properties-reader-uri 'sqlite:///?dsn=/usr/local/data/sfomuseum-data-architecture.db' \
-	-enable-geojson \
+	-geojson-reader-uri 'sql://sqlite3/geojson/id/body?dsn=/usr/local/data/sfomuseum-data-architecture.db' \		
 	-mode directory://
 ```
 
