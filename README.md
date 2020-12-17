@@ -76,17 +76,18 @@ For example:
 ```
 $> bin/server \
 	-enable-www \	
-	-enable-properties \
-	-geojson-reader-uri 'sql://sqlite3/geojson/id/body?dsn=/usr/local/data/sfomuseum-data-architecture.db' \	
 	-spatial-database-uri 'sqlite:///?dsn=/usr/local/data/sfomuseum-data-architecture.db' \
 	-properties-reader-uri 'sqlite:///?dsn=/usr/local/data/sfomuseum-data-architecture.db' \
+	-geojson-reader-uri 'sql://sqlite3/geojson/id/body?dsn=/usr/local/data/sfomuseum-data-architecture.db' \		
 	-nextzen-apikey {NEXT_APIKEY} \
 	-mode directory://
 ```
 
 A couple things to note:
 
-* The SQLite databases specified in the `sqlite:///?dsn` string are expected to minimally contain the `rtree` and `geojson` tables confirming to the schemas defined in the [go-whosonfirst-sqlite-features](https://github.com/whosonfirst/go-whosonfirst-sqlite-features). They are typically produced by the [go-whosonfirst-sqlite-features-index](https://github.com/whosonfirst/go-whosonfirst-sqlite-features-index) package.
+* The SQLite databases specified in the `sqlite:///?dsn` string are expected to minimally contain the `rtree` and `spr` and `properties` tables confirming to the schemas defined in the [go-whosonfirst-sqlite-features](https://github.com/whosonfirst/go-whosonfirst-sqlite-features). They are typically produced by the [go-whosonfirst-sqlite-features-index](https://github.com/whosonfirst/go-whosonfirst-sqlite-features-index) package. See the documentation in the [go-whosonfirst-spatial-sqlite](https://github.com/whosonfirst/go-whosonfirst-spatial-sqlite) package for details.
+
+* The `-geojson-reader-uri` flag, and GeoJSON output for spatial queries in general, is discussed in detail below.
 
 * Do you notice the way we are passing in a `-mode directory://` flag? This should only be necessary if we are generating, or updating, a SQLite database when the `server` tool starts up. As of this writing it is always necessary even though it doesn't do anything. There is an [open ticket](https://github.com/whosonfirst/go-whosonfirst-spatial/issues/14) to address this.
 
@@ -98,11 +99,9 @@ If you don't need, or want, to expose a user-facing interface simply remove the 
 
 ```
 $> bin/server \
-	-enable-properties \
-	-enable-geojson \	
 	-spatial-database-uri 'sqlite:///?dsn=/usr/local/data/sfomuseum-data-architecture.db' \
 	-properties-reader-uri 'sqlite:///?dsn=/usr/local/data/sfomuseum-data-architecture.db' \
-	-geojson-reader-uri 'sql://sqlite3/geojson/id/body?dsn=/usr/local/data/sfomuseum-data-architecture.db' \		
+	-enable-properties \	
 	-mode directory://
 ```
 
@@ -143,8 +142,20 @@ $> curl -s 'http://localhost:8080/api/point-in-polygon?latitude=37.6170189431606
 }    
 ```
 
-By default, results are returned as a list of ["standard places response"](https://github.com/whosonfirst/go-whosonfirst-spr/) (SPR) elements. You can also return results as a GeoJSON `FeatureCollection` by including a `format=geojson` query parameter. For example:
+By default, results are returned as a list of ["standard places response"](https://github.com/whosonfirst/go-whosonfirst-spr/) (SPR) elements. You can also return results as a GeoJSON `FeatureCollection` by passing the `-enable-geojson` flag to the server and including a `format=geojson` query parameter with requests. For example:
 
+
+```
+$> bin/server \
+	-enable-geojson \
+	-enable-properties \	
+	-spatial-database-uri 'sqlite:///?dsn=/usr/local/data/sfomuseum-data-architecture.db' \
+	-properties-reader-uri 'sqlite:///?dsn=/usr/local/data/sfomuseum-data-architecture.db' \
+	-geojson-reader-uri 'sql://sqlite3/geojson/id/body?dsn=/usr/local/data/sfomuseum-data-architecture.db' \		
+	-mode directory://
+```
+
+And then:
 
 ```
 $> curl -s 'http://localhost:8080/api/point-in-polygon?latitude=37.61701894316063&longitude=-122.3866653442383&format=geojson'
@@ -272,11 +283,75 @@ $> curl -s 'http://localhost:8080/api/point-in-polygon?latitude=37.6170189431606
 }
 ```
 
+### GeoJSON
+
+GeoJSON output is produced by transforming a [go-whosonfirst-spr](https://github.com/whosonfirst/go-whosonfirst-spr) `StandardPlacesResults` instance, as returned by the [go-whosonfirst-spatial](https://github.com/whosonfirst/go-whosonfirst-spatial) `database.PointInPolygon` interface method, in to a GeoJSON FeatureCollection using the [go-whosonfirst-spr-geojson](https://github.com/whosonfirst/go-whosonfirst-spr-geojson) package.
+
+The `go-whosonfirst-spr-geojson` package in turn uses the [whosonfirst/go-reader](https://github.com/whosonfirst/go-reader) packages to retrieve WOF records. There are two readers that are available by default with this tool:
+
+* A reader for a directory containing WOF records on the local file system. This is part of the [whosonfirst/go-reader](https://github.com/whosonfirst/go-reader) package.
+* A reader for a SQLite database with a table that has indexed WOF records. This is part of the [whosonfirst/go-reader-sql-database](https://github.com/whosonfirst/go-reader-sql-database) package.
+
+Here's how you might use the local file system reader:
+
+```
+$> bin/server \
+	-enable-geojson \	
+	-geojson-reader-uri 'fs:///usr/local/data/sfomuseum-data-architecture/data' \		
+```
+
+And here's how you might use the SQLite reader:
+
+```
+$> bin/server \
+	-enable-geojson \	
+	-geojson-reader-uri 'sql://sqlite3/geojson/id/body?dsn=/usr/local/data/sfomuseum-data-architecture.db' \		
+```
+
+The URI syntax for the SQLite reader is different than that used for the `-spatial-database-uri` or `-properties-reader-uri` flags because the reader itself is not specific to SQLite but designed to work with any valid [database/sql](https://golang.org/pkg/database/sql/) driver. The semantics of the `-geojson-reader-uri` flag are:
+
+```
+sql://{SQL_DRIVER}/{DATABASE_TABLE}/{ID_KEY}/{GEOJSON_COLUMN}?dsn=/usr/local/data/sfomuseum-data-architecture.db'
+```
+
+In order to account for query results that may contain alternate geometries there is some extra work that needs to be done in code, assigning custom functions for the `go-reader-sql-database.URI_READFUNC` and `go-reader-sql-database.URI_QUERYFUNC` properties, in order to extend the default `{ID_KEY}={VALUE}` query. This is done in [cmd/server/main.go](cmd/server/main.go).
+
+In the example above we are assuming a table called `geojson` as defined by the [go-whosonfirst-sqlite-features](https://github.com/whosonfirst/go-whosonfirst-sqlite-features#geojson) package.
+
+Here's an example of the creating a compatible SQLite database, with support for GeoJSON results, for all the [administative data in Canada](https://github.com/whosonfirst-data/whosonfirst-data-admin-ca) using the `wof-sqlite-index-features` tool which is part of the [go-whosonfirst-sqlite-features-index](https://github.com/whosonfirst/go-whosonfirst-sqlite-features-index) package:
+
+```
+$> ./bin/wof-sqlite-index-features \
+	-index-alt-files \
+	-rtree \
+	-spr \
+	-properties \
+	-geojson \	
+	-dsn /usr/local/data/ca.db \
+	-mode repo:// \
+	/usr/local/data/whosonfirst-data-admin-ca/
+```
+
+And then to start the `server` tool using this new database you would do:
+
+```
+$> bin/server \
+	-enable-www \	
+	-geojson-reader-uri 'sql://sqlite3/geojson/id/body?dsn=/usr/local/data/ca.db' \	
+	-spatial-database-uri 'sqlite:///?dsn=/usr/local/data/ca.db' \
+	-properties-reader-uri 'sqlite:///?dsn=/usr/local/data/ca.db' \
+	-nextzen-apikey {NEXT_APIKEY} \
+	-mode directory://
+```
+
+GeoJSON results are noticeably slower than SPR results, particularly for features with large geometries like countries. GeoJSON output is provided as a convenience but is not recommended for public-facing scenarios where speed is a critical factor.
+
 ## See also
 
 * https://github.com/whosonfirst/go-whosonfirst-spatial
 * https://github.com/whosonfirst/go-whosonfirst-spatial-http
 * https://github.com/whosonfirst/go-whosonfirst-spatial-sqlite
 * https://github.com/whosonfirst/go-whosonfirst-spr
+* https://github.com/whosonfirst/go-whosonfirst-spr-geojson
 * https://github.com/whosonfirst/go-whosonfirst-sqlite-features-index
 * https://developers.nextzen.org/
