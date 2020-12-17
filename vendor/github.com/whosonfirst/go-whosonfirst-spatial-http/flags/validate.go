@@ -20,11 +20,11 @@ func ValidateWWWFlags(fs *flag.FlagSet) error {
 		return nil
 	}
 
-	log.Println("-enable-www flag is true causing the following flags to also be true: -enable-geojson -enable-candidates -enable-properties")
+	log.Println("-enable-www flag is true causing the following flags to also be true: -enable-data -enable-candidates -enable-properties")
 
 	fs.Set("enable-geojson", "true")
 	fs.Set("enable-properties", "true")
-	fs.Set("enable-candidates", "true")
+	// fs.Set("enable-candidates", "true")
 
 	properties_reader_uri, err := spatial_flags.StringVar(fs, "properties-reader-uri")
 
@@ -34,6 +34,16 @@ func ValidateWWWFlags(fs *flag.FlagSet) error {
 
 	if properties_reader_uri == "" {
 		return errors.New("Invalid or missing -properties-reader-uri flag")
+	}
+
+	geojson_reader_uri, err := spatial_flags.StringVar(fs, "geojson-reader-uri")
+
+	if err != nil {
+		return err
+	}
+
+	if geojson_reader_uri == "" {
+		return errors.New("Invalid or missing -geojson-reader-uri flag")
 	}
 
 	init_lat, err := spatial_flags.Float64Var(fs, "initial-latitude")

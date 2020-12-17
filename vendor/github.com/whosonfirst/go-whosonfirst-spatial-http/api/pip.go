@@ -1,12 +1,15 @@
 package api
 
 import (
+	"encoding/json"
 	"github.com/aaronland/go-http-sanitize"
+	"github.com/whosonfirst/go-reader"
 	"github.com/whosonfirst/go-whosonfirst-spatial-http/api/output"
 	"github.com/whosonfirst/go-whosonfirst-spatial-http/api/parameters"
 	"github.com/whosonfirst/go-whosonfirst-spatial/app"
 	"github.com/whosonfirst/go-whosonfirst-spatial/filter"
 	"github.com/whosonfirst/go-whosonfirst-spr"
+	"github.com/whosonfirst/go-whosonfirst-spr-geojson"
 	_ "log"
 	"net/http"
 )
@@ -14,6 +17,7 @@ import (
 type PointInPolygonHandlerOptions struct {
 	EnableGeoJSON    bool
 	EnableProperties bool
+	GeoJSONReader    reader.Reader
 }
 
 func PointInPolygonHandler(spatial_app *app.SpatialApplication, opts *PointInPolygonHandlerOptions) (http.Handler, error) {
@@ -47,12 +51,12 @@ func PointInPolygonHandler(spatial_app *app.SpatialApplication, opts *PointInPol
 		}
 
 		if str_format == "geojson" && !opts.EnableGeoJSON {
-			http.Error(rsp, "Invalid format", http.StatusBadRequest)
+			http.Error(rsp, "GeoJSON formatting is disabled.", http.StatusBadRequest)
 			return
 		}
 
 		if str_format == "properties" && !opts.EnableProperties {
-			http.Error(rsp, "Invalid format", http.StatusBadRequest)
+			http.Error(rsp, "Properties formatting is disabled.", http.StatusBadRequest)
 			return
 		}
 
@@ -82,35 +86,24 @@ func PointInPolygonHandler(spatial_app *app.SpatialApplication, opts *PointInPol
 			return
 		}
 
+		rsp.Header().Set("Content-Type", "application/json")
+
 		var final interface{}
 		final = results
+
+		enc := json.NewEncoder(rsp)
 
 		switch str_format {
 		case "geojson":
 
-			collection, err := spatial_db.StandardPlacesResultsToFeatureCollection(ctx, results)
+			err := geojson.AsFeatureCollection(ctx, results, opts.GeoJSONReader, rsp)
 
 			if err != nil {
 				http.Error(rsp, err.Error(), http.StatusInternalServerError)
 				return
 			}
 
-			if collection == nil {
-				http.Error(rsp, "Unable to yield GeoJSON results", http.StatusInternalServerError)
-				return
-			}
-
-			if len(properties_paths) > 0 {
-
-				err = properties_r.AppendPropertiesWithFeatureCollection(ctx, collection, properties_paths)
-
-				if err != nil {
-					http.Error(rsp, err.Error(), http.StatusInternalServerError)
-					return
-				}
-			}
-
-			final = collection
+			return
 
 		case "properties":
 
@@ -130,7 +123,12 @@ func PointInPolygonHandler(spatial_app *app.SpatialApplication, opts *PointInPol
 			// spr (above)
 		}
 
-		output.AsJSON(rsp, final)
+		err = enc.Encode(final)
+
+		if err != nil {
+			http.Error(rsp, err.Error(), http.StatusInternalServerError)
+			return
+		}
 	}
 
 	h := http.HandlerFunc(fn)
