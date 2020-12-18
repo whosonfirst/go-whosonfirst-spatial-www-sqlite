@@ -2,6 +2,7 @@ package api
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/aaronland/go-http-sanitize"
 	"github.com/whosonfirst/go-reader"
 	"github.com/whosonfirst/go-whosonfirst-spatial-http/api/output"
@@ -10,6 +11,9 @@ import (
 	"github.com/whosonfirst/go-whosonfirst-spatial/filter"
 	"github.com/whosonfirst/go-whosonfirst-spr"
 	"github.com/whosonfirst/go-whosonfirst-spr-geojson"
+	// "github.com/whosonfirst/go-whosonfirst-flags/placetypes"			
+	"github.com/whosonfirst/go-whosonfirst-flags/existential"		
+	"github.com/whosonfirst/go-whosonfirst-flags/geometry"		
 	_ "log"
 	"net/http"
 )
@@ -66,7 +70,7 @@ func PointInPolygonHandler(spatial_app *app.SpatialApplication, opts *PointInPol
 			http.Error(rsp, err.Error(), http.StatusBadRequest)
 			return
 		}
-
+		
 		filters, err := filter.NewSPRFilterFromQuery(query)
 
 		if err != nil {
@@ -74,6 +78,13 @@ func PointInPolygonHandler(spatial_app *app.SpatialApplication, opts *PointInPol
 			return
 		}
 
+		err = appendFilterWithParameters(filters)
+
+		if err != nil {
+			http.Error(rsp, err.Error(), http.StatusBadRequest)
+			return
+		}
+		
 		results, err := spatial_db.PointInPolygon(ctx, coord, filters)
 
 		if err != nil {
@@ -168,4 +179,157 @@ func PointInPolygonCandidatesHandler(spatial_app *app.SpatialApplication) (http.
 
 	h := http.HandlerFunc(fn)
 	return h, nil
+}
+
+func appendFilterWithParameters(f filter.Filter) error {
+
+	geometries, err := parameters.Geometries()
+
+	if err != nil {
+		return err
+	}
+
+	switch geometries {
+	case "all":
+		// pass
+	case "alt", "alternate":
+
+		af, err := geometry.NewIsAlternateGeometryFlag(true)
+
+		if err != nil {
+			return fmt.Errorf("Failed to create alternate geometry flag, %v", err)
+		}
+
+		f.AlternateGeometry = af
+		
+	case "default":
+
+		af, err := geometry.NewIsAlternateGeometryFlag(false)
+
+		if err != nil {
+			fmt.Errorf("Failed to create alternate geometry flag, %v", err)
+		}
+
+		f.AlternateGeometry = af
+		
+	default:
+		fmt.Errorf("Invalid -geometries flag")
+	}
+	
+	alt_geoms, err := parameters.AlternateGeometries()
+
+	if err != nil {
+		return err
+	}
+
+	if len(alt_geoms) > 0 {
+
+		alt_flags, err := geometry.NewAlternateGeometryFlagsWithLabelArray(alt_geoms...)
+
+		if err != nil {
+			fmt.Errorf("Failed to create alternate geometries flags, %v", err)
+		}
+				
+		f.AlternateGeometries = alt_flags
+	}
+
+	/*
+	if len(pts) > 0 {
+
+		pt_flags, err := placetypes.NewPlacetypeFlagsArray(pts...)
+
+		if err != nil {
+			fmt.Errorf("Failed to create placetype flags, %v", err)
+		}
+		
+		f.Placetypes = pt_flags
+	}
+	*/
+
+	is_current, err := parameters.IsCurrent()
+
+	if err != nil {
+		return err
+	}
+	
+	if len(is_current) > 0 {
+
+		existential_flags, err := existential.NewKnownUnknownFlagsArray(is_current...)
+
+		if err != nil {
+			fmt.Errorf("Failed to create is-current flags, %v", err)
+		}
+		
+		f.Current = existential_flags
+	}
+	
+	is_ceased, err := parameters.IsCeased()
+	
+	if err != nil {
+		return err
+	}
+
+	if len(is_ceased) > 0 {
+
+		existential_flags, err := existential.NewKnownUnknownFlagsArray(is_ceased...)
+
+		if err != nil {
+			fmt.Errorf("Failed to create is-ceased flags, %v", err)
+		}
+
+		f.Ceased = existential_flags
+	}
+
+	is_deprecated, err := parameters.IsDeprecated()
+
+	if err != nil {
+		return err
+	}
+	
+	if len(is_deprecated) > 0 {
+
+		existential_flags, err := existential.NewKnownUnknownFlagsArray(is_deprecated...)
+
+		if err != nil {
+			fmt.Errorf("Failed to create is-deprecated flags, %v", err)
+		}
+
+		f.Deprecated = existential_flags
+	}
+
+	is_superseded, err := parameters.IsSuperseded()
+
+	if err != nil {
+		return err
+	}
+
+	if len(is_superseded) > 0 {
+
+		existential_flags, err := existential.NewKnownUnknownFlagsArray(is_superseded...)
+
+		if err != nil {
+			fmt.Errorf("Failed to create is-superseded flags, %v", err)
+		}
+
+		f.Superseded = existential_flags
+	}
+
+	is_superseding, err := parameters.IsSuperseding()
+
+	if err != nil {
+		return err
+	}
+	
+	if len(is_superseding) > 0 {
+
+		existential_flags, err := existential.NewKnownUnknownFlagsArray(is_superseding...)
+
+		if err != nil {
+			fmt.Errorf("Failed to create is-superseding flags, %v", err)
+		}
+
+		f.Superseding = existential_flags
+	}
+
+	return nil
 }

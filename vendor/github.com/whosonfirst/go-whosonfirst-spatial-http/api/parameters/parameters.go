@@ -120,6 +120,51 @@ func AlternateGeometries(req *http.Request) ([]string, error) {
 	return alt_geoms, nil
 }
 
+func IsCurrent(req *http.Request) ([]int64, error) {
+	return existentialFlag(req, "is-current")
+}
+
+func IsCeased(req *http.Request) ([]int64, error) {
+	return existentialFlag(req, "is-ceased")
+}
+
+func IsDeprecated(req *http.Request) ([]int64, error) {
+	return existentialFlag(req, "is-deprecated")
+}
+
+func IsSuperseded(req *http.Request) ([]int64, error) {
+	return existentialFlag(req, "is-superseded")
+}
+
+func IsSuperseding(req *http.Request) ([]int64, error) {
+	return existentialFlag(req, "is-superseding")
+}
+
+func existentialFlag(req *http.Request, label string) ([]int64, error) {
+
+	str_values, err := sanitize.GetString(req, label)
+
+	if err != nil {
+		return nil, err
+	}
+
+	str_list := listWithString(str_values, ",")
+	int64_list := make([]int64, 0)
+
+	for idx, str_i := range str_list {
+
+		i, err := strconv.ParseInt(str_i, 10, 64)
+
+		if err != nil {
+			return nil, err
+		}
+
+		int64_list[idx] = i
+	}
+
+	return int64_list, nil
+}
+
 func listWithString(raw string, sep string) []string {
 
 	list := make([]string, 0)	
