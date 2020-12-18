@@ -8,7 +8,7 @@ The goal is to have a package that conforms to the [database.SpatialDatabase](ht
 
 ## Databases
 
-This code depends on (4) tables as indexed by the `go-whosonfirst-sqlite-features` package:
+This code depends on (3) tables as indexed by the `go-whosonfirst-sqlite-features` package:
 
 * [rtree](https://github.com/whosonfirst/go-whosonfirst-sqlite-features#rtree) - this table is used to perform point-in-polygon spatial queries.
 * [spr](https://github.com/whosonfirst/go-whosonfirst-sqlite-features#spr) - this table is used to generate [standard place response](#) (SPR) results.
@@ -21,7 +21,6 @@ $> ./bin/wof-sqlite-index-features \
 	-index-alt-files \
 	-rtree \
 	-spr \
-	-geometry \
 	-properties \
 	-timings \
 	-dsn /usr/local/ca-alt.db \
@@ -50,12 +49,6 @@ $> ./bin/query \
 | jq \
 | grep wof:id
 
-2020/12/15 15:32:05 Unable to parse placetype (alt) for ID 85874359, because 'Invalid placetype' - skipping placetype filters
-2020/12/15 15:32:06 Unable to parse placetype (alt) for ID 85633041, because 'Invalid placetype' - skipping placetype filters
-2020/12/15 15:32:06 Unable to parse placetype (alt) for ID 136251273, because 'Invalid placetype' - skipping placetype filters
-2020/12/15 15:32:06 Unable to parse placetype (alt) for ID 85633041, because 'Invalid placetype' - skipping placetype filters
-2020/12/15 15:32:06 Unable to parse placetype (alt) for ID 136251273, because 'Invalid placetype' - skipping placetype filters
-2020/12/15 15:32:06 Unable to parse placetype (alt) for ID 85633041, because 'Invalid placetype' - skipping placetype filters
 2020/12/16 13:25:32 Time to point in polygon, 395.201983ms
       "wof:id": "85633041",
       "wof:id": "85874359",
@@ -120,31 +113,9 @@ func main() {
 
 _Error handling removed for the sake of brevity._
 
-## Interfaces
+## Filters
 
-This package implements the following [go-whosonfirst-spatial](#) interfaces.
-
-### spatial.SpatialDatabase
-
-```
-import (
-	"github.com/whosonfirst/go-whosonfirst-spatial/database"
-	_ "github.com/whosonfirst/go-whosonfirst-spatial-sqlite"       
-)
-
-db, err := database.NewSpatialDatabase(ctx, "sqlite://?dsn={DSN}")
-```
-
-### spatial.PropertiesReader
-
-```
-import (
-	"github.com/whosonfirst/go-whosonfirst-spatial/properties"
-	_ "github.com/whosonfirst/go-whosonfirst-spatial-sqlite"       
-)
-
-pr, err := properties.NewPropertiesReader(ctx, "sqlite://?dsn={DSN}")
-```
+_To be written_
 
 ## Tools
 
@@ -152,25 +123,56 @@ pr, err := properties.NewPropertiesReader(ctx, "sqlite://?dsn={DSN}")
 
 ```
 $> ./bin/query -h
-Usage of ./bin/query:
-  -database-uri string
+  -alternate-geometry value
+    	One or more alternate geometry labels (wof:alt_label) values to filter results by.
+  -custom-placetypes string
     	...
+  -custom-placetypes-source string
+    	...
+  -enable-custom-placetypes
+    	...
+  -enable-properties
+    	Enable support for 'properties' parameters in queries.
+  -exclude value
+    	Exclude (WOF) records based on their existential flags. Valid options are: ceased, deprecated, not-current, superseded.
+  -geometries string
+    	Valid options are: all, alt, default. (default "all")
+  -is-ceased value
+    	One or more existential flags (-1, 0, 1) to filter results by.
+  -is-current value
+    	One or more existential flags (-1, 0, 1) to filter results by.
+  -is-deprecated value
+    	One or more existential flags (-1, 0, 1) to filter results by.
+  -is-superseded value
+    	One or more existential flags (-1, 0, 1) to filter results by.
+  -is-superseding value
+    	One or more existential flags (-1, 0, 1) to filter results by.
+  -is-wof
+    	Input data is WOF-flavoured GeoJSON. (Pass a value of '0' or 'false' if you need to index non-WOF documents. (default true)
   -latitude float
-    	...
+    	A valid latitude.
   -longitude float
-    	...
+    	A valid longitude.
+  -placetype value
+    	One or more place types to filter results by.
   -properties value
-    	...
-  -properties-uri string
-    	...
+    	One or more Who's On First properties to append to each result.
+  -properties-reader-uri string
+    	Valid options are: [sqlite://]
+  -setenv
+    	Set flags from environment variables.
+  -spatial-database-uri string
+    	Valid options are: [sqlite://] (default "rtree://")
+  -verbose
+    	Be chatty.
 ```
 
 For example:
 
 ```
 $> ./bin/query \
-	-database-uri 'sqlite://?dsn=/usr/local/data/sfomuseum-data-architecture.db' \
-	-properties-uri 'sqlite://?dsn=/usr/local/data/sfomuseum-data-architecture.db' \
+	-spatial-database-uri 'sqlite://?dsn=/usr/local/data/sfomuseum-data-architecture.db' \
+	-properties-readers-uri 'sqlite://?dsn=/usr/local/data/sfomuseum-data-architecture.db' \
 	-latitude 37.616951 \
 	-longitude -122.383747 \
 	-properties 'wof:hierarchy' \
@@ -229,10 +231,156 @@ $> ./bin/query \
 ]   
 ```
 
-Note: This assumes a database that was previously indexed using the [whosonfirst/go-whosonfirst-sqlite-features](https://github.com/whosonfirst/go-whosonfirst-sqlite-features) `wof-sqlite-index-features` tool. For example:
+#### Filters
+
+##### Existential flags
+
+It is possible to filter results by one or more existential flags (`-is-current`, `-is-ceased`, `-is-deprecated`, `-is-superseded`, `-is-superseding`). For example, this query for a point at SFO airport returns 24 possible candidates:
 
 ```
-$> ./bin/wof-sqlite-index-features -rtree -spr -properties -dsn /tmp/test.db -mode repo:// /usr/local/data/sfomuseum-data-architecture/
+$> ./bin/query \
+	-spatial-database-uri 'sqlite://?dsn=/usr/local/data/sfom-arch.db' \
+	-latitude 37.616951 \
+	-longitude -122.383747
+
+| jq | grep wof:id | wc -l
+
+2020/12/17 17:01:16 Time to point in polygon, 38.131108ms
+      24
+```
+
+But when filtered using the `-is-current 1` flag there is only a single result:
+
+```
+> ./bin/query \
+	-spatial-database-uri 'sqlite://?dsn=/usr/local/data/sfom-arch.db' \
+	-latitude 37.616951 \
+	-longitude -122.383747 \
+	-is-current 1
+
+| jq
+
+2020/12/17 17:00:11 Time to point in polygon, 46.401411ms
+{
+  "places": [
+    {
+      "wof:id": "1477855655",
+      "wof:parent_id": "1477855607",
+      "wof:name": "Terminal 2 Main Hall",
+      "wof:country": "US",
+      "wof:placetype": "concourse",
+      "mz:latitude": 37.617044,
+      "mz:longitude": -122.383533,
+      "mz:min_latitude": 37.61569458544746,
+      "mz:min_longitude": 37.617044,
+      "mz:max_latitude": -122.3849257355292,
+      "mz:max_longitude": -122.38294919235318,
+      "mz:is_current": 1,
+      "mz:is_deprecated": 0,
+      "mz:is_ceased": 1,
+      "mz:is_superseded": 0,
+      "mz:is_superseding": 1,
+      "wof:path": "147/785/565/5/1477855655.geojson",
+      "wof:repo": "sfomuseum-data-architecture",
+      "wof:lastmodified": 1569430965
+    }
+  ]
+}
+```
+
+##### Alternate geometries
+
+You can also filter results to one or more specific alternate geometry labels. For example here are the `quattroshapes` and `whosonfirst-reversegeo` geometries for a point in the city of Montreal, using a SQLite database created from the `whosonfirst-data-admin-ca` database:
+
+```
+$> ./bin/query \
+	-spatial-database-uri 'sqlite://?dsn=/usr/local/data/ca-alt.db' \
+	-latitude 45.572744 \
+	-longitude -73.586295 \
+	-alternate-geometry quattroshapes \
+	-alternate-geometry whosonfirst-reversegeo
+
+| jq | grep wof:name
+
+2020/12/17 16:52:08 Time to point in polygon, 419.727612ms
+      "wof:name": "136251273 alt geometry (quattroshapes)",
+      "wof:name": "85633041 alt geometry (whosonfirst-reversegeo)",
+      "wof:name": "85874359 alt geometry (quattroshapes)",
+```
+
+Note: These examples assumes a database that was previously indexed using the [whosonfirst/go-whosonfirst-sqlite-features](https://github.com/whosonfirst/go-whosonfirst-sqlite-features) `wof-sqlite-index-features` tool. For example:
+
+```
+$> ./bin/wof-sqlite-index-features \
+	-rtree \
+	-spr \
+	-properties \
+	-dsn /tmp/test.db
+	-mode repo:// \
+	/usr/local/data/sfomuseum-data-architecture/
+```
+
+The exclude alternate geometries from query results pass the `-geometries default` flag:
+
+```
+$> ./bin/query \
+	-spatial-database-uri 'sqlite://?dsn=/usr/local/data/ca-alt.db' \
+	-latitude 45.572744 \
+	-longitude -73.586295 \
+	-geometries default
+
+| jq | grep wof:name
+
+2020/12/17 17:07:31 Time to point in polygon, 405.430776ms
+      "wof:name": "Canada",
+      "wof:name": "Saint-Leonard",
+      "wof:name": "Quartier Port-Maurice",
+      "wof:name": "Montreal",
+      "wof:name": "Quebec",
+```
+
+To limit query results to _only_ alternate geometries pass the `-geometries alternate` flag:
+
+```
+$> ./bin/query \
+	-spatial-database-uri 'sqlite://?dsn=/usr/local/data/ca-alt.db' \
+	-latitude 45.572744 \
+	-longitude -73.586295 \
+	-geometries alternate
+
+2020/12/17 17:07:39 Time to point in polygon, 366.347365ms
+      "wof:name": "85874359 alt geometry (quattroshapes)",
+      "wof:name": "85633041 alt geometry (naturalearth)",
+      "wof:name": "85633041 alt geometry (naturalearth-display-terrestrial-zoom6)",
+      "wof:name": "136251273 alt geometry (whosonfirst)",
+      "wof:name": "136251273 alt geometry (quattroshapes)",
+      "wof:name": "85633041 alt geometry (whosonfirst-reversegeo)",
+```
+
+## Interfaces
+
+This package implements the following [go-whosonfirst-spatial](#) interfaces.
+
+### spatial.SpatialDatabase
+
+```
+import (
+	"github.com/whosonfirst/go-whosonfirst-spatial/database"
+	_ "github.com/whosonfirst/go-whosonfirst-spatial-sqlite"       
+)
+
+db, err := database.NewSpatialDatabase(ctx, "sqlite://?dsn={DSN}")
+```
+
+### spatial.PropertiesReader
+
+```
+import (
+	"github.com/whosonfirst/go-whosonfirst-spatial/properties"
+	_ "github.com/whosonfirst/go-whosonfirst-spatial-sqlite"       
+)
+
+pr, err := properties.NewPropertiesReader(ctx, "sqlite://?dsn={DSN}")
 ```
 
 ## See also
