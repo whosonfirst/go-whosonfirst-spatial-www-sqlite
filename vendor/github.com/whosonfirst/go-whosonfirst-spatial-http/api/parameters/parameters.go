@@ -79,19 +79,62 @@ func Coordinate(req *http.Request) (*geom.Coord, error) {
 
 func Properties(req *http.Request) ([]string, error) {
 
-	var properties []string
-
 	str_properties, err := sanitize.GetString(req, "properties")
 
 	if err != nil {
 		return nil, err
 	}
 
-	str_properties = strings.Trim(str_properties, " ")
+	properties := listWithString(str_properties, ",")
+	return properties, nil
+}
 
-	if str_properties != "" {
-		properties = strings.Split(str_properties, ",")
+// as in ?geometries=all or ?geometries=default
+
+func Geometries(req *http.Request) (string, error) {
+
+	var geoms string
+
+	geoms, err := sanitize.GetString(req, "geometries")
+
+	if err != nil {
+		return "", err
 	}
 
-	return properties, nil
+	geoms = strings.Trim(geoms, " ")
+
+	return geoms, nil
+}
+
+// as in ?alternate-geometries=quattroshapes&alternate-geometries=reversegeo
+
+func AlternateGeometries(req *http.Request) ([]string, error) {
+
+	str_geoms, err := sanitize.GetString(req, "alternate-geometries")
+
+	if err != nil {
+		return nil, err
+	}
+
+	alt_geoms := listWithString(str_geoms, ",")
+	return alt_geoms, nil
+}
+
+func listWithString(raw string, sep string) []string {
+
+	list := make([]string, 0)	
+	trimmed := strings.Trim(raw, "")
+
+	for _, str := range strings.Split(trimmed, sep) {
+
+		str = strings.Trim(str, "")
+
+		if str == "" {
+			continue
+		}
+
+		list = append(list, str)
+	}
+
+	return list
 }
