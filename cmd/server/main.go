@@ -64,6 +64,12 @@ func main() {
 		log.Fatal(err)
 	}
 
+	err = spatial_flags.AppendIndexingFlags(fs)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+	
 	err = flags.AppendWWWFlags(fs)
 
 	if err != nil {
