@@ -311,7 +311,7 @@ $> bin/server \
 The URI syntax for the SQLite reader is different than that used for the `-spatial-database-uri` or `-properties-reader-uri` flags because the reader itself is not specific to SQLite but designed to work with any valid [database/sql](https://golang.org/pkg/database/sql/) driver. The semantics of the `-geojson-reader-uri` flag are:
 
 ```
-sql://{SQL_DRIVER}/{DATABASE_TABLE}/{ID_KEY}/{GEOJSON_COLUMN}?dsn=/usr/local/data/sfomuseum-data-architecture.db'
+sql://{SQL_DRIVER}/{DATABASE_TABLE}/{ID_KEY}/{GEOJSON_COLUMN}?dsn={DATABASE_DSN}'
 ```
 
 In order to account for query results that may contain alternate geometries there is some extra work that needs to be done in code, assigning custom functions for the `go-reader-sql-database.URI_READFUNC` and `go-reader-sql-database.URI_QUERYFUNC` properties, in order to extend the default `{ID_KEY}={VALUE}` query. This is done in [cmd/server/main.go](cmd/server/main.go).
