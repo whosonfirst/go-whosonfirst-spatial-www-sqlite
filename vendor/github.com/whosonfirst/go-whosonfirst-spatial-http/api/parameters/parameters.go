@@ -79,31 +79,19 @@ func Coordinate(req *http.Request) (*geom.Coord, error) {
 
 func Properties(req *http.Request) ([]string, error) {
 
+	var properties []string
+
 	str_properties, err := sanitize.GetString(req, "properties")
 
 	if err != nil {
 		return nil, err
 	}
 
-	properties := listWithString(str_properties, ",")
-	return properties, nil
-}
+	str_properties = strings.Trim(str_properties, " ")
 
-func listWithString(raw string, sep string) []string {
-
-	list := make([]string, 0)	
-	trimmed := strings.Trim(raw, "")
-
-	for _, str := range strings.Split(trimmed, sep) {
-
-		str = strings.Trim(str, "")
-
-		if str == "" {
-			continue
-		}
-
-		list = append(list, str)
+	if str_properties != "" {
+		properties = strings.Split(str_properties, ",")
 	}
 
-	return list
+	return properties, nil
 }

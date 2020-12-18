@@ -2,7 +2,6 @@ package api
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/aaronland/go-http-sanitize"
 	"github.com/whosonfirst/go-reader"
 	"github.com/whosonfirst/go-whosonfirst-spatial-http/api/output"
@@ -11,9 +10,6 @@ import (
 	"github.com/whosonfirst/go-whosonfirst-spatial/filter"
 	"github.com/whosonfirst/go-whosonfirst-spr"
 	"github.com/whosonfirst/go-whosonfirst-spr-geojson"
-	// "github.com/whosonfirst/go-whosonfirst-flags/placetypes"			
-	"github.com/whosonfirst/go-whosonfirst-flags/existential"		
-	"github.com/whosonfirst/go-whosonfirst-flags/geometry"		
 	_ "log"
 	"net/http"
 )
@@ -71,13 +67,6 @@ func PointInPolygonHandler(spatial_app *app.SpatialApplication, opts *PointInPol
 			return
 		}
 
-		spr_query, err := parameters.SPRQueryWithRequest(spr)
-
-		if err != nil {
-			http.Error(rsp, err.Error(), http.StatusBadRequest)
-			return
-		}
-		
 		filters, err := filter.NewSPRFilterFromQuery(query)
 
 		if err != nil {
@@ -85,13 +74,6 @@ func PointInPolygonHandler(spatial_app *app.SpatialApplication, opts *PointInPol
 			return
 		}
 
-		err = appendFilterWithParameters(filters)
-
-		if err != nil {
-			http.Error(rsp, err.Error(), http.StatusBadRequest)
-			return
-		}
-		
 		results, err := spatial_db.PointInPolygon(ctx, coord, filters)
 
 		if err != nil {
