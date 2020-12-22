@@ -113,7 +113,7 @@ github.com/whosonfirst/go-whosonfirst-spatial-http/flags
 github.com/whosonfirst/go-whosonfirst-spatial-http/health
 github.com/whosonfirst/go-whosonfirst-spatial-http/http
 github.com/whosonfirst/go-whosonfirst-spatial-http/server
-# github.com/whosonfirst/go-whosonfirst-spatial-sqlite v0.0.17
+# github.com/whosonfirst/go-whosonfirst-spatial-sqlite v0.0.18
 github.com/whosonfirst/go-whosonfirst-spatial-sqlite
 # github.com/whosonfirst/go-whosonfirst-spr v0.1.0
 github.com/whosonfirst/go-whosonfirst-spr

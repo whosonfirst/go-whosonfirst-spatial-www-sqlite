@@ -69,7 +69,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	
+
 	err = flags.AppendWWWFlags(fs)
 
 	if err != nil {
