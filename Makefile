@@ -7,3 +7,6 @@ debug:
 debug-fs:
 	go run -mod vendor cmd/server/main.go -enable-www -enable-properties -spatial-database-uri 'sqlite:///?dsn=$(DSN)' -properties-reader-uri 'sqlite:///?dsn=$(DSN)' -geojson-reader-uri 'fs://$(REPO)/data' -nextzen-apikey $(APIKEY) -mode repo:// $(REPO)
 
+debug-woeplanet:
+	go run -mod vendor cmd/server/main.go -enable-www -geojson-path-resolver-uri wofid:// -enable-properties -spatial-database-uri 'sqlite:///?dsn=$(DSN)' -properties-reader-uri 'sqlite:///?dsn=$(DSN)' -geojson-reader-uri 'fs://$(REPO)/data' -nextzen-apikey $(APIKEY) -mode repo:// $(REPO)
+
