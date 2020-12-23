@@ -104,7 +104,7 @@ github.com/whosonfirst/go-whosonfirst-spatial/flags
 github.com/whosonfirst/go-whosonfirst-spatial/geo
 github.com/whosonfirst/go-whosonfirst-spatial/properties
 github.com/whosonfirst/go-whosonfirst-spatial/timer
-# github.com/whosonfirst/go-whosonfirst-spatial-http v0.0.16
+# github.com/whosonfirst/go-whosonfirst-spatial-http v0.0.17
 github.com/whosonfirst/go-whosonfirst-spatial-http/api
 github.com/whosonfirst/go-whosonfirst-spatial-http/api/output
 github.com/whosonfirst/go-whosonfirst-spatial-http/api/parameters
