@@ -79,7 +79,7 @@ $> bin/server \
 	-spatial-database-uri 'sqlite:///?dsn=/usr/local/data/sfomuseum-data-architecture.db' \
 	-properties-reader-uri 'sqlite:///?dsn=/usr/local/data/sfomuseum-data-architecture.db' \
 	-geojson-reader-uri 'sql://sqlite3/geojson/id/body?dsn=/usr/local/data/sfomuseum-data-architecture.db' \		
-	-nextzen-apikey {NEXT_APIKEY} \
+	-nextzen-apikey {NEXTZEN_APIKEY} \
 	-mode directory://
 ```
 
@@ -340,7 +340,7 @@ $> bin/server \
 	-geojson-reader-uri 'sql://sqlite3/geojson/id/body?dsn=/usr/local/data/ca.db' \	
 	-spatial-database-uri 'sqlite:///?dsn=/usr/local/data/ca.db' \
 	-properties-reader-uri 'sqlite:///?dsn=/usr/local/data/ca.db' \
-	-nextzen-apikey {NEXT_APIKEY} \
+	-nextzen-apikey {NEXTZEN_APIKEY} \
 	-mode directory://
 ```
 
@@ -421,6 +421,8 @@ $> curl -s 'http://localhost:8080/api/point-in-polygon?latitude=37.6168695752134
 "International Terminal"
 "International Terminal"
 ```
+
+Under the hood the code is using the [go-whosonfirst-sqlite-features](https://github.com/whosonfirst/go-whosonfirst-sqlite-features) package to index the "plain old" GeoJSON documents. You can also index your "plain old" GeoJSON documents ahead of time (using the [go-whosonfirst-sqlite-features-index](https://github.com/whosonfirst/go-whosonfirst-sqlite-features-index) package) to speed up start up times, as demonstrated in the examples at the top of this document.
 
 ## See also
 
