@@ -346,6 +346,82 @@ $> bin/server \
 
 GeoJSON results are noticeably slower than SPR results, particularly for features with large geometries like countries. GeoJSON output is provided as a convenience but is not recommended for public-facing scenarios where speed is a critical factor.
 
+### Indexing "plain old" GeoJSON
+
+There is early support for indexing "plain old" GeoJSON, as in GeoJSON documents that do not following the naming conventions for properties that Who's On First documents use. It is very likely there are still bugs or subtle gotchas.
+
+For example, here's how we could index and serve a GeoJSON FeatureCollection of building footprints, using an in-memory SQLite database:
+
+```
+$> ./bin/server \
+	-spatial-database-uri 'sqlite:///?dsn=:memory:' \
+	-mode featurecollection://
+	/usr/local/data/footprint.geojson
+```
+
+And then:
+
+```
+$> curl -s 'http://localhost:8080/api/point-in-polygon?latitude=37.61686957521345&longitude=-122.3903158758416' \
+
+| jq '.["places"][]["wof:id"]'
+
+"1031"
+"1015"
+"1014"
+```
+
+If you want to enable the `properties` output format you would do this:
+
+```
+$> ./bin/server \
+   -enable-properties \
+   -index-properties \   
+   -spatial-database-uri 'sqlite:///?dsn=:memory:' \
+   -properties-reader-uri 'sqlite:///?dsn=:memory:' \
+   -mode featurecollection://
+   /usr/local/data/footprint.geojson
+```
+
+And then:
+
+```
+$> curl -s 'http://localhost:8080/api/point-in-polygon?latitude=37.61686957521345&longitude=-122.3903158758416&format=properties&properties=BUILDING' \
+
+| jq '.["properties"][]["BUILDING"]'
+
+"400"
+"400"
+"100"
+"100"
+"100"
+```
+
+If you want to enable the `geojson` output format you will need to create a local SQLite database, rather than an in-memory database. That's because the in-memory database created by the `-spatial-database-uri` flag is different from the in-memory database created by the `-geojson-reader-uri` flag. For example:
+
+```
+$> ./bin/server \
+	-enable-geojson \
+	-spatial-database-uri 'sqlite:///?dsn=test4.db&index-geojson=true' \
+	-geojson-reader-uri 'sql://sqlite3/geojson/id/body?dsn=test4.db' \
+	-mode featurecollection://
+	/usr/local/data/footprint.geojson
+```
+
+And then:
+
+```
+$> curl -s 'http://localhost:8080/api/point-in-polygon?latitude=37.61686957521345&longitude=-122.3903158758416&format=geojson' \
+
+| jq '.["features"][]["properties"]["NAME"]'
+
+"Terminal 3"
+"International Terminal"
+"International Terminal"
+"International Terminal"
+"International Terminal"
+```
+
 ## See also
 
 * https://github.com/whosonfirst/go-whosonfirst-spatial
