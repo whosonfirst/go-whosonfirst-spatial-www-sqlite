@@ -4,9 +4,9 @@ go 1.12
 
 require (
 	github.com/whosonfirst/go-reader-database-sql v0.0.2
-	github.com/whosonfirst/go-whosonfirst-index v0.3.2
-	github.com/whosonfirst/go-whosonfirst-spatial v0.0.24
-	github.com/whosonfirst/go-whosonfirst-spatial-http v0.0.17
-	github.com/whosonfirst/go-whosonfirst-spatial-sqlite v0.0.19
+	github.com/whosonfirst/go-whosonfirst-index v0.3.4
+	github.com/whosonfirst/go-whosonfirst-spatial v0.0.26
+	github.com/whosonfirst/go-whosonfirst-spatial-http v0.0.18
+	github.com/whosonfirst/go-whosonfirst-spatial-sqlite v0.0.22
 	github.com/whosonfirst/go-whosonfirst-uri v0.2.0
 )

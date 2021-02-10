@@ -21,7 +21,6 @@ import (
 	"github.com/whosonfirst/go-whosonfirst-sqlite-features/tables"
 	sqlite_database "github.com/whosonfirst/go-whosonfirst-sqlite/database"
 	"github.com/whosonfirst/go-whosonfirst-uri"
-	golog "log"
 	"net/url"
 	"strconv"
 	"sync"
@@ -98,6 +97,21 @@ func NewSQLiteSpatialDatabase(ctx context.Context, uri string) (database.Spatial
 	if err != nil {
 		return nil, err
 	}
+
+	return NewSQLiteSpatialDatabaseWithDatabase(ctx, uri, sqlite_db)
+}
+
+func NewSQLiteSpatialDatabaseWithDatabase(ctx context.Context, uri string, sqlite_db *sqlite_database.SQLiteDatabase) (database.SpatialDatabase, error) {
+
+	u, err := url.Parse(uri)
+
+	if err != nil {
+		return nil, err
+	}
+
+	q := u.Query()
+
+	dsn := q.Get("dsn")
 
 	rtree_table, err := tables.NewRTreeTableWithDatabase(sqlite_db)
 
@@ -194,11 +208,14 @@ func (r *SQLiteSpatialDatabase) PointInPolygon(ctx context.Context, coord *geom.
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
 
-	t1 := time.Now()
+	/*
+		t1 := time.Now()
 
-	defer func() {
-		golog.Printf("Time to point in polygon, %v\n", time.Since(t1))
-	}()
+		defer func() {
+			golog.Printf("Time to point in polygon, %v\n", time.Since(t1))
+		}()
+
+	*/
 
 	rsp_ch := make(chan spr.StandardPlacesResult)
 	err_ch := make(chan error)
