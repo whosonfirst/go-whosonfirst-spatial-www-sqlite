@@ -1,6 +1,6 @@
 # github.com/NYTimes/gziphandler v1.1.1
 github.com/NYTimes/gziphandler
-# github.com/aaronland/go-http-bootstrap v0.0.9
+# github.com/aaronland/go-http-bootstrap v0.0.10
 github.com/aaronland/go-http-bootstrap
 github.com/aaronland/go-http-bootstrap/resources
 github.com/aaronland/go-http-bootstrap/static
@@ -136,7 +136,7 @@ github.com/whosonfirst/go-whosonfirst-spatial-pip/api
 # github.com/whosonfirst/go-whosonfirst-spatial-sqlite v0.0.34
 ## explicit
 github.com/whosonfirst/go-whosonfirst-spatial-sqlite
-# github.com/whosonfirst/go-whosonfirst-spatial-www v0.0.21
+# github.com/whosonfirst/go-whosonfirst-spatial-www v0.0.22
 ## explicit
 github.com/whosonfirst/go-whosonfirst-spatial-www/flags
 github.com/whosonfirst/go-whosonfirst-spatial-www/http

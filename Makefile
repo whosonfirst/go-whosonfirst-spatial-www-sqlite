@@ -1,24 +1,7 @@
 cli:
 	go build -mod vendor -o bin/server cmd/server/main.go
 
-debug:
-	go run -mod vendor cmd/server/main.go -enable-www -enable-properties -spatial-database-uri 'sqlite:///?dsn=$(DSN)' -properties-reader-uri 'sqlite:///?dsn=$(DSN)' -geojson-reader-uri 'sql://sqlite3/geojson/id/body?dsn=$(DSN)' -nextzen-apikey $(APIKEY) -mode directory:// 
-
-debug-fs:
-	go run -mod vendor cmd/server/main.go -enable-www -enable-properties -spatial-database-uri 'sqlite:///?dsn=$(DSN)' -properties-reader-uri 'sqlite:///?dsn=$(DSN)' -geojson-reader-uri 'fs://$(REPO)/data' -nextzen-apikey $(APIKEY) -mode repo:// $(REPO)
-
-debug-woeplanet:
-	go run -mod vendor cmd/server/main.go -enable-www -geojson-path-resolver-uri wofid:// -enable-properties -spatial-database-uri 'sqlite:///?dsn=$(DSN)' -properties-reader-uri 'sqlite:///?dsn=$(DSN)' -geojson-reader-uri 'fs://$(REPO)/data' -nextzen-apikey $(APIKEY) -mode repo:// $(REPO)
-
-debug-geojson:
-	go run -mod vendor cmd/server/main.go -spatial-database-uri 'sqlite:///?dsn=$(DSN)&index-geojson=true' -mode featurecollection:// $(GEOJSON)
-
-debug-output-properties:
-	go run -mod vendor cmd/server/main.go -enable-properties -spatial-database-uri 'sqlite:///?dsn=$(DSN)' -index-properties -properties-reader-uri 'sqlite:///?dsn=$(DSN)' -nextzen-apikey $(APIKEY) -mode featurecollection:// $(GEOJSON)
-
-debug-output-geojson:
-	go run -mod vendor cmd/server/main.go -enable-geojson -spatial-database-uri 'sqlite:///?dsn=$(DSN)&index-geojson=true' -geojson-reader-uri 'sql://sqlite3/geojson/id/body?dsn=$(DSN)' -nextzen-apikey $(APIKEY) -mode featurecollection:// $(GEOJSON)
-
-debug-www-geojson:
-	go run -mod vendor cmd/server/main.go -enable-www -geojson-path-resolver-uri wofid:// -enable-properties -spatial-database-uri 'sqlite:///?dsn=$(DSN)&index-geojson=true' -index-properties -properties-reader-uri 'sqlite:///?dsn=$(DSN)' -geojson-reader-uri 'sql://sqlite3/geojson/id/body?dsn=$(DSN)' -nextzen-apikey $(APIKEY) -mode featurecollection:// $(GEOJSON)
-
+docker:
+	cp $(DATABASE) whosonfirst.db
+	docker build --build-arg DATABASE=whosonfirt.db -f Dockerfile -t spatial-www-sqlite .
+	rm whosonfirst.db
