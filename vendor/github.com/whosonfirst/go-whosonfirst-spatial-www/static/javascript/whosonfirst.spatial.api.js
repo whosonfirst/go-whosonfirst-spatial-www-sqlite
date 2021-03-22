@@ -1,6 +1,14 @@
 var whosonfirst = whosonfirst || {};
 whosonfirst.spatial = whosonfirst.spatial || {};
 
+/*
+
+This is really a whosonfirst-spatial-pip API right now. It is too
+soon to say whether this reflect a common approach for all API-related
+stuff (20210322/thisisaaronland)
+
+*/
+
 whosonfirst.spatial.api = (function(){
 
     var self = {
@@ -21,25 +29,6 @@ whosonfirst.spatial.api = (function(){
 	    var abs_url = self.abs_url(rel_url);
 	    
 	    var req = new XMLHttpRequest();
-
-	    /*
-	    var form_data = args;
-
-	    if (! form_data.append){
-		
-		form_data = new FormData();
-		
-		for (key in args){
-		    form_data.append(key, args[key]);
-		}
-	    }
-
-	    if (method.verb() == "GET"){
-
-		if (form_data.keys()){}
-	    }
-
-	    */
 					    
 	    req.onload = function(){
 		
@@ -62,11 +51,13 @@ whosonfirst.spatial.api = (function(){
 
 	    req.setRequestHeader("Content-type", "application/json");
 	    req.setRequestHeader("Accept", "application/geo+json");
-	    
+
+	    console.log("POST", args);
 	    var enc_args = JSON.stringify(args);
 	    req.send(enc_args);	    
 	},
-	
+
+	/*
 	'get': function(rel_url, args, on_success, on_error) {
 
 	    var qs = self.query_string(args);
@@ -96,7 +87,8 @@ whosonfirst.spatial.api = (function(){
 	    req.open("get", abs_url, true);
 	    req.send();	    
 	},
-
+	*/
+	
 	'abs_url': function(rel_url) {
 
 	    return location.protocol + "//" + location.host + '/api' + rel_url;	// READ ME FROM A DATA ATTRIBUTE...

@@ -6,6 +6,5 @@ require (
 	github.com/sfomuseum/go-flags v0.8.1
 	github.com/whosonfirst/go-whosonfirst-spatial v0.0.46
 	github.com/whosonfirst/go-whosonfirst-spatial-sqlite v0.0.34
-	github.com/whosonfirst/go-whosonfirst-spatial-www v0.0.20
-	github.com/whosonfirst/go-whosonfirst-uri v0.2.0 // indirect
+	github.com/whosonfirst/go-whosonfirst-spatial-www v0.0.21
 )
