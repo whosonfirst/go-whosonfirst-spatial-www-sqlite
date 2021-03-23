@@ -20,10 +20,19 @@ func ValidateWWWFlags(fs *flag.FlagSet) error {
 		return nil
 	}
 
-	log.Printf("-%s flag is true causing the following flags to also be true: -%s\n", ENABLE_WWW, ENABLE_GEOJSON)
+	bool_flags := []string{
+		ENABLE_CORS,
+		ENABLE_GZIP,
+	}
 
-	fs.Set(ENABLE_GEOJSON, "true")
-	// fs.Set(ENABLE_PROPERTIES, "true")
+	for _, k := range bool_flags {
+
+		_, err := lookup.BoolVar(fs, k)
+
+		if err != nil {
+			return err
+		}
+	}
 
 	init_lat, err := lookup.Float64Var(fs, INITIAL_LATITUDE)
 

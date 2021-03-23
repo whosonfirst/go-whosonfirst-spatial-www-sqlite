@@ -58,7 +58,6 @@ github.com/sfomuseum/go-edtf/parser
 github.com/sfomuseum/go-edtf/re
 github.com/sfomuseum/go-edtf/tests
 # github.com/sfomuseum/go-flags v0.8.1
-## explicit
 github.com/sfomuseum/go-flags/flagset
 github.com/sfomuseum/go-flags/lookup
 github.com/sfomuseum/go-flags/multi
@@ -121,7 +120,6 @@ github.com/whosonfirst/go-whosonfirst-placetypes/placetypes
 github.com/whosonfirst/go-whosonfirst-sources
 github.com/whosonfirst/go-whosonfirst-sources/sources
 # github.com/whosonfirst/go-whosonfirst-spatial v0.0.46
-## explicit
 github.com/whosonfirst/go-whosonfirst-spatial
 github.com/whosonfirst/go-whosonfirst-spatial/app
 github.com/whosonfirst/go-whosonfirst-spatial/database
@@ -136,7 +134,7 @@ github.com/whosonfirst/go-whosonfirst-spatial-pip/api
 # github.com/whosonfirst/go-whosonfirst-spatial-sqlite v0.0.34
 ## explicit
 github.com/whosonfirst/go-whosonfirst-spatial-sqlite
-# github.com/whosonfirst/go-whosonfirst-spatial-www v0.0.24
+# github.com/whosonfirst/go-whosonfirst-spatial-www v0.0.26
 ## explicit
 github.com/whosonfirst/go-whosonfirst-spatial-www/flags
 github.com/whosonfirst/go-whosonfirst-spatial-www/http
