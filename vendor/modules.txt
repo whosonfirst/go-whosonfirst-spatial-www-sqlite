@@ -136,7 +136,7 @@ github.com/whosonfirst/go-whosonfirst-spatial-pip/api
 # github.com/whosonfirst/go-whosonfirst-spatial-sqlite v0.0.34
 ## explicit
 github.com/whosonfirst/go-whosonfirst-spatial-sqlite
-# github.com/whosonfirst/go-whosonfirst-spatial-www v0.0.22
+# github.com/whosonfirst/go-whosonfirst-spatial-www v0.0.23
 ## explicit
 github.com/whosonfirst/go-whosonfirst-spatial-www/flags
 github.com/whosonfirst/go-whosonfirst-spatial-www/http
