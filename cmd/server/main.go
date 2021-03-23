@@ -2,8 +2,8 @@ package main
 
 import (
 	"context"
-	"github.com/whosonfirst/go-whosonfirst-spatial-www/server"
 	_ "github.com/whosonfirst/go-whosonfirst-spatial-sqlite"
+	"github.com/whosonfirst/go-whosonfirst-spatial-www/server"
 	"log"
 )
 
