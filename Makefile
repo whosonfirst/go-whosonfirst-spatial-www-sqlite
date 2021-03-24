@@ -3,5 +3,5 @@ cli:
 
 docker:
 	cp $(DATABASE) whosonfirst.db
-	docker build --build-arg DATABASE=whosonfirt.db -f Dockerfile -t spatial-www-sqlite .
+	docker build -f Dockerfile -t $(CONTAINER) .
 	rm whosonfirst.db

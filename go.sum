@@ -411,6 +411,8 @@ github.com/whosonfirst/go-whosonfirst-spatial-www v0.0.24 h1:S8JnPbS0BkCvBpLhpho
 github.com/whosonfirst/go-whosonfirst-spatial-www v0.0.24/go.mod h1:7OyLvjzQgYm8UEJJEYdqIb6xq7gzMzQlIfBGrOQGxv8=
 github.com/whosonfirst/go-whosonfirst-spatial-www v0.0.26 h1:yAf6v5v1x6d9nNdNJJu+sEWD7QD94auYGQpftbHJWiY=
 github.com/whosonfirst/go-whosonfirst-spatial-www v0.0.26/go.mod h1:7OyLvjzQgYm8UEJJEYdqIb6xq7gzMzQlIfBGrOQGxv8=
+github.com/whosonfirst/go-whosonfirst-spatial-www v0.0.27 h1:+odwOslAOt8QXFnc6yOJuhXEwLgu+48YhuNqGA5CYX0=
+github.com/whosonfirst/go-whosonfirst-spatial-www v0.0.27/go.mod h1:7OyLvjzQgYm8UEJJEYdqIb6xq7gzMzQlIfBGrOQGxv8=
 github.com/whosonfirst/go-whosonfirst-spr v0.1.0 h1:5qE629nCiucF2upy5NjPOEl9cFatsljykYY0l2JKgAk=
 github.com/whosonfirst/go-whosonfirst-spr v0.1.0/go.mod h1:R8GtEVz1GVSnwwOjzcoVUd172ZK26Q7hQSLI6SGG7lM=
 github.com/whosonfirst/go-whosonfirst-spr-geojson v0.0.1 h1:u+iSmP5AWcLehm3d1e7zxOTPHbZf0wbRFSwZw668INo=
