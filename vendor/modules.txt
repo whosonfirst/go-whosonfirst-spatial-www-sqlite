@@ -130,7 +130,7 @@ github.com/whosonfirst/go-whosonfirst-spatial/timer
 # github.com/whosonfirst/go-whosonfirst-spatial-pip v0.0.10
 github.com/whosonfirst/go-whosonfirst-spatial-pip
 github.com/whosonfirst/go-whosonfirst-spatial-pip/api
-# github.com/whosonfirst/go-whosonfirst-spatial-sqlite v0.0.36
+# github.com/whosonfirst/go-whosonfirst-spatial-sqlite v0.0.37
 ## explicit
 github.com/whosonfirst/go-whosonfirst-spatial-sqlite
 # github.com/whosonfirst/go-whosonfirst-spatial-www v0.0.29
@@ -151,7 +151,7 @@ github.com/whosonfirst/go-whosonfirst-sqlite/utils
 # github.com/whosonfirst/go-whosonfirst-sqlite-features v0.8.0
 github.com/whosonfirst/go-whosonfirst-sqlite-features
 github.com/whosonfirst/go-whosonfirst-sqlite-features/tables
-# github.com/whosonfirst/go-whosonfirst-sqlite-spr v0.0.4
+# github.com/whosonfirst/go-whosonfirst-sqlite-spr v0.0.5
 github.com/whosonfirst/go-whosonfirst-sqlite-spr
 # github.com/whosonfirst/go-whosonfirst-uri v0.2.0
 github.com/whosonfirst/go-whosonfirst-uri
