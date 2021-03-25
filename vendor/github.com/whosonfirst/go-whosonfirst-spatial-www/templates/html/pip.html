@@ -3,7 +3,7 @@
 <nav>
 </nav>
 
-	<div class="card" id="point-in-polygon" data-initial-latitude="{{ .InitialLatitude }}" data-initial-longitude="{{ .InitialLongitude }}" data-initial-zoom="{{ .InitialZoom }}" >
+	<div class="card" id="point-in-polygon" data-initial-latitude="{{ .InitialLatitude }}" data-initial-longitude="{{ .InitialLongitude }}" data-initial-zoom="{{ .InitialZoom }}" data-max-bounds="{{ .MaxBounds }}">
 
 	    <div id="map" class="card-body" data-leaflet-tile-url="{{ .LeafletTileURL }}"></div>
 	    <div class="card-footer">
@@ -56,7 +56,6 @@
 		    </div>		    
 		</details>
 		
-		<!--
 		<details>
 		    <summary>Extras</summary>
 
@@ -66,7 +65,6 @@
 		    </div>
 		    
 		</details>
-		-->
 		
 	    </div>
 	</div>
@@ -78,9 +76,11 @@
 	    </div>	    
 	</div>
 	
-<link rel="stylesheet" type="text/css" href="{{ EnsureRoot "css/whosonfirst.spatial.pip.css" }}" />
-<script type="text/javascript" src="{{ EnsureRoot "javascript/whosonfirst.spatial.pip.js" }}"></script>
-<script type="text/javascript" src="{{ EnsureRoot "javascript/whosonfirst.spatial.pip.init.js" }}"></script>
+	<link rel="stylesheet" type="text/css" href="{{ EnsureRoot "css/whosonfirst.spatial.pip.css" }}" />
+	<link rel="stylesheet" type="text/css" href="{{ EnsureRoot "css/leaflet.spinner.control.css" }}" />	
+	<script type="text/javascript" src="{{ EnsureRoot "javascript/leaflet.spinner.control.js" }}"></script>	
+	<script type="text/javascript" src="{{ EnsureRoot "javascript/whosonfirst.spatial.pip.js" }}"></script>
+	<script type="text/javascript" src="{{ EnsureRoot "javascript/whosonfirst.spatial.pip.init.js" }}"></script>
 
 {{ template "inc_foot" . }}
 {{ end }}

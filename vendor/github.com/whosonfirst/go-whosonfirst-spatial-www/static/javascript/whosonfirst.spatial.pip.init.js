@@ -48,6 +48,8 @@ window.addEventListener("load", function load(event){
 	console.log("Missing initial zoom");
 	return;
     }
+
+    var max_bounds = pip_wrapper.getAttribute("data-max-bounds");
     
     var map_el = document.getElementById("map");
 
@@ -77,6 +79,9 @@ window.addEventListener("load", function load(event){
     var layers = L.layerGroup();
     layers.addTo(map);
 
+    var spinner = new L.Control.Spinner();
+    // map.addControl(spinner);
+    
     var update_map = function(e){
 
 	var pos = map.getCenter();	
@@ -173,7 +178,7 @@ window.addEventListener("load", function load(event){
 	    var url = data_root + id;
 
 	    var on_success = function(data){
-		
+
 		var l = L.geoJSON(data, {
 		    style: function(feature){
 			return whosonfirst.spatial.pip.named_style("match");
@@ -193,30 +198,95 @@ window.addEventListener("load", function load(event){
 	
 	var on_success = function(rsp){
 
-	    layers.clearLayers();
-
+	    map.removeControl(spinner);
+	    
 	    var places = rsp["places"];
 	    var count = places.length;
 
+	    var matches = document.getElementById("pip-matches");
+	    matches.innerHTML = "";
+	    
+	    if (! count){
+		return;
+	    }
+	    
 	    for (var i=0; i < count; i++){
 		var pl = places[i];
 		show_feature(pl["wof:id"]);
 	    }
 	    
 	    var table_props = whosonfirst.spatial.pip.default_properties();
-	    var table = whosonfirst.spatial.pip.render_properties_table(places, table_props);
+
+	    // START OF something something something
 	    
-	    var matches = document.getElementById("pip-matches");
-	    matches.innerHTML = "";
+	    var extras_el = document.getElementById("extras");
+
+	    if (extras_el){
+		
+		var str_extras = extras_el.value;
+		var extras = null;
+		
+		if (str_extras){
+		    extras = str_extras.split(",");  		    
+		}
+
+		if (extras){
+
+		    var first = places[0];
+		    
+		    var count_extras = extras.length;		    
+		    var extra_props = [];
+		    
+		    for (var i=0; i < count_extras; i++){
+
+			var ex = extras[i];
+			
+			if ((ex.endsWith(":")) || (ex.endsWith(":*"))){
+			    
+			    var prefix = ex.replace("*", "");
+			    
+			    for (k in first){
+				if (k.startsWith(prefix)){
+				    extra_props.push(k);
+				}
+			    }
+			    
+			} else {
+
+			    if (first[ex]) {
+				extra_props.push(ex);
+			    }
+			}
+		    }
+
+		    for (idx in extra_props){
+			var ex = extra_props[idx];
+			table_props[ex] = "";
+		    }
+		}
+
+	    }
+
+	    // END OF something something something
+	    
+	    var table = whosonfirst.spatial.pip.render_properties_table(places, table_props);
 	    matches.appendChild(table);
 	    
 	};
 
 	var on_error = function(err){
+
+	    var matches = document.getElementById("pip-matches");
+	    matches.innerHTML = "";
+	    
+	    map.removeControl(spinner);	    
 	    console.log("SAD", err);
 	}
 
 	whosonfirst.spatial.api.point_in_polygon(args, on_success, on_error);
+
+	map.addControl(spinner);	
+	layers.clearLayers();	
     };
     
     map.on("moveend", update_map);
@@ -252,5 +322,33 @@ window.addEventListener("load", function load(event){
     
     map.setView([init_lat, init_lon], init_zoom);    
 
+    if (max_bounds) {
+
+	var bounds = max_bounds.split(",");
+
+	var miny;
+	var minx;
+	var maxy;
+	var maxx;
+	
+	if (bounds.length == 4){
+	    minx = parseFloat(bounds[0]);
+	    miny = parseFloat(bounds[1]);	    
+	    maxx = parseFloat(bounds[2]);
+	    maxy = parseFloat(bounds[3]);	    
+	}
+
+	if ((miny) && (minx) && (maxy) && (maxx)){
+
+	    var max_bounds = [
+		[ miny, minx ],
+		[ maxy, maxx ]
+	    ];
+
+	    // console.log("BOUNDS", bounds, max_bounds);
+	    map.setMaxBounds(max_bounds);
+	}
+    }
+    
     slippymap.crosshairs.init(map);    
 });
