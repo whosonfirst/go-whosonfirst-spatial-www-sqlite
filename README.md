@@ -336,12 +336,7 @@ Create a new "REST" API. For the sake of this example we'll call it `Architectur
 Once deployed the `server` tool will be available at a URL like `{PREFIX}.execute-api.us-east-1.amazonaws.com/architecture`. For example:
 
 * https://{PREFIX}.execute-api.us-east-1.amazonaws.com/architecture/
-
-As of this writing the _root_ URL for the API returns a 404 error. I haven't figured out why. Or rather I know I've figured it out before but I can't remember what I did.
-
-All the other URLs, including the `/point-in-polygon` web page and associated API methods work though:
-
-* https://{PREFIX}.execute-api.us-east-1.amazonaws.com/architecture/point-in-polygon
+* https://{PREFIX}.execute-api.us-east-1.amazonaws.com/architecture/point-in-polygon/
 
 ## See also
 
