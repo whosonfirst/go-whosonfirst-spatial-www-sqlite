@@ -4,9 +4,13 @@ SQLite-backed implementation of the go-whosonfirst-spatial interfaces.
 
 ## Important
 
-This is work in progress. It may change, probably has bugs and isn't properly documented yet.
+This is work in progress. It may change still. The goal is to have a package that conforms to the [database.SpatialDatabase](https://github.com/whosonfirst/go-whosonfirst-spatial#spatialdatabase) interface using [mattn/go-sqlite3](https://github.com/mattn/go-sqlite3) and SQLite's [RTree](https://www.sqlite.org/rtree.html) extension.
 
-The goal is to have a package that conforms to the [database.SpatialDatabase](https://github.com/whosonfirst/go-whosonfirst-spatial#spatialdatabase) interface using [mattn/go-sqlite3](https://github.com/mattn/go-sqlite3) and SQLite's [RTree](https://www.sqlite.org/rtree.html) extension.
+## Documentation
+
+[![Go Reference](https://pkg.go.dev/badge/github.com/whosonfirst/go-whosonfirst-spatial-sqlite.svg)](https://pkg.go.dev/github.com/whosonfirst/go-whosonfirst-spatial-sqlite)
+
+Documentation is incomplete.
 
 ## Databases
 
@@ -357,10 +361,10 @@ $> ./bin/query \
 
 #### Remote databases
 
-If you are running Go 1.17 (or higher) support for remotely-hosted SQLite databases is available. For example:
+Support for remotely-hosted SQLite databases is available. For example:
 
 ```
-$> ~/go/bin/go1.17rc2 run cmd/query/main.go \
+$> go run -mod vendor cmd/query/main.go \
 	-spatial-database-uri 'sqlite://?dsn=http://localhost:8080/sfomuseum-architecture.db' \
 	-latitude 37.616951 \
 	-longitude -122.383747 \
