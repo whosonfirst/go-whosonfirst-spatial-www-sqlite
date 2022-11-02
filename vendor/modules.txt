@@ -102,7 +102,7 @@ github.com/sfomuseum/go-edtf/tests
 github.com/sfomuseum/go-flags/flagset
 github.com/sfomuseum/go-flags/lookup
 github.com/sfomuseum/go-flags/multi
-# github.com/sfomuseum/go-http-auth v0.0.4
+# github.com/sfomuseum/go-http-auth v0.0.5
 ## explicit; go 1.19
 github.com/sfomuseum/go-http-auth
 # github.com/tidwall/gjson v1.14.3
@@ -177,7 +177,7 @@ github.com/whosonfirst/go-whosonfirst-spatial-pip/api
 # github.com/whosonfirst/go-whosonfirst-spatial-sqlite v0.5.4
 ## explicit; go 1.18
 github.com/whosonfirst/go-whosonfirst-spatial-sqlite
-# github.com/whosonfirst/go-whosonfirst-spatial-www v0.0.33
+# github.com/whosonfirst/go-whosonfirst-spatial-www v0.0.34
 ## explicit; go 1.18
 github.com/whosonfirst/go-whosonfirst-spatial-www/application/server
 github.com/whosonfirst/go-whosonfirst-spatial-www/http
