@@ -4,7 +4,7 @@ go 1.18
 
 require (
 	github.com/whosonfirst/go-whosonfirst-spatial-sqlite v0.5.4
-	github.com/whosonfirst/go-whosonfirst-spatial-www v0.0.34
+	github.com/whosonfirst/go-whosonfirst-spatial-www v0.0.35
 )
 
 require (
