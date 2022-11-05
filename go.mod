@@ -3,8 +3,8 @@ module github.com/whosonfirst/go-whosonfirst-spatial-http-sqlite
 go 1.18
 
 require (
-	github.com/whosonfirst/go-whosonfirst-spatial-sqlite v0.5.4
-	github.com/whosonfirst/go-whosonfirst-spatial-www v0.0.35
+	github.com/whosonfirst/go-whosonfirst-spatial-sqlite v0.5.5
+	github.com/whosonfirst/go-whosonfirst-spatial-www v0.0.37
 )
 
 require (
@@ -52,14 +52,13 @@ require (
 	github.com/whosonfirst/go-whosonfirst-placetypes v0.3.0 // indirect
 	github.com/whosonfirst/go-whosonfirst-sources v0.1.0 // indirect
 	github.com/whosonfirst/go-whosonfirst-spatial v0.4.0 // indirect
-	github.com/whosonfirst/go-whosonfirst-spatial-pip v0.0.12 // indirect
-	github.com/whosonfirst/go-whosonfirst-spr-geojson v0.0.7 // indirect
+	github.com/whosonfirst/go-whosonfirst-spatial-pip v0.0.13 // indirect
+	github.com/whosonfirst/go-whosonfirst-spr-geojson v0.0.8 // indirect
 	github.com/whosonfirst/go-whosonfirst-spr/v2 v2.2.1 // indirect
 	github.com/whosonfirst/go-whosonfirst-sqlite-features v0.10.0 // indirect
 	github.com/whosonfirst/go-whosonfirst-sqlite-spr v0.3.2 // indirect
 	github.com/whosonfirst/go-whosonfirst-uri v1.2.0 // indirect
-	github.com/whosonfirst/go-writer-featurecollection/v2 v2.0.0 // indirect
-	github.com/whosonfirst/go-writer/v2 v2.0.0 // indirect
+	github.com/whosonfirst/go-writer-featurecollection/v3 v3.0.0-20220916180959-42588e308a3e // indirect
 	github.com/whosonfirst/go-writer/v3 v3.0.0 // indirect
 	github.com/whosonfirst/walk v0.0.1 // indirect
 	github.com/whosonfirst/warning v0.1.1 // indirect

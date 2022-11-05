@@ -170,21 +170,21 @@ github.com/whosonfirst/go-whosonfirst-spatial/filter
 github.com/whosonfirst/go-whosonfirst-spatial/flags
 github.com/whosonfirst/go-whosonfirst-spatial/geo
 github.com/whosonfirst/go-whosonfirst-spatial/timer
-# github.com/whosonfirst/go-whosonfirst-spatial-pip v0.0.12
-## explicit; go 1.16
+# github.com/whosonfirst/go-whosonfirst-spatial-pip v0.0.13
+## explicit; go 1.18
 github.com/whosonfirst/go-whosonfirst-spatial-pip
 github.com/whosonfirst/go-whosonfirst-spatial-pip/api
-# github.com/whosonfirst/go-whosonfirst-spatial-sqlite v0.5.4
+# github.com/whosonfirst/go-whosonfirst-spatial-sqlite v0.5.5
 ## explicit; go 1.18
 github.com/whosonfirst/go-whosonfirst-spatial-sqlite
-# github.com/whosonfirst/go-whosonfirst-spatial-www v0.0.35
+# github.com/whosonfirst/go-whosonfirst-spatial-www v0.0.37
 ## explicit; go 1.18
 github.com/whosonfirst/go-whosonfirst-spatial-www/application/server
 github.com/whosonfirst/go-whosonfirst-spatial-www/http
 github.com/whosonfirst/go-whosonfirst-spatial-www/static
 github.com/whosonfirst/go-whosonfirst-spatial-www/templates/html
-# github.com/whosonfirst/go-whosonfirst-spr-geojson v0.0.7
-## explicit; go 1.12
+# github.com/whosonfirst/go-whosonfirst-spr-geojson v0.0.8
+## explicit; go 1.18
 github.com/whosonfirst/go-whosonfirst-spr-geojson
 # github.com/whosonfirst/go-whosonfirst-spr/v2 v2.2.1
 ## explicit; go 1.16
@@ -199,12 +199,9 @@ github.com/whosonfirst/go-whosonfirst-sqlite-spr
 # github.com/whosonfirst/go-whosonfirst-uri v1.2.0
 ## explicit; go 1.13
 github.com/whosonfirst/go-whosonfirst-uri
-# github.com/whosonfirst/go-writer-featurecollection/v2 v2.0.0
+# github.com/whosonfirst/go-writer-featurecollection/v3 v3.0.0-20220916180959-42588e308a3e
 ## explicit; go 1.12
-github.com/whosonfirst/go-writer-featurecollection/v2
-# github.com/whosonfirst/go-writer/v2 v2.0.0
-## explicit; go 1.16
-github.com/whosonfirst/go-writer/v2
+github.com/whosonfirst/go-writer-featurecollection/v3
 # github.com/whosonfirst/go-writer/v3 v3.0.0
 ## explicit; go 1.18
 github.com/whosonfirst/go-writer/v3
