@@ -170,14 +170,14 @@ github.com/whosonfirst/go-whosonfirst-spatial/filter
 github.com/whosonfirst/go-whosonfirst-spatial/flags
 github.com/whosonfirst/go-whosonfirst-spatial/geo
 github.com/whosonfirst/go-whosonfirst-spatial/timer
-# github.com/whosonfirst/go-whosonfirst-spatial-pip v0.0.13
+# github.com/whosonfirst/go-whosonfirst-spatial-pip v0.1.0
 ## explicit; go 1.18
 github.com/whosonfirst/go-whosonfirst-spatial-pip
-github.com/whosonfirst/go-whosonfirst-spatial-pip/api
+github.com/whosonfirst/go-whosonfirst-spatial-pip/http/api
 # github.com/whosonfirst/go-whosonfirst-spatial-sqlite v0.5.5
 ## explicit; go 1.18
 github.com/whosonfirst/go-whosonfirst-spatial-sqlite
-# github.com/whosonfirst/go-whosonfirst-spatial-www v0.0.37
+# github.com/whosonfirst/go-whosonfirst-spatial-www v0.0.38
 ## explicit; go 1.18
 github.com/whosonfirst/go-whosonfirst-spatial-www/application/server
 github.com/whosonfirst/go-whosonfirst-spatial-www/http

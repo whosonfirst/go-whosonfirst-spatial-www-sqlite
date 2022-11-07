@@ -4,7 +4,7 @@ go 1.18
 
 require (
 	github.com/whosonfirst/go-whosonfirst-spatial-sqlite v0.5.5
-	github.com/whosonfirst/go-whosonfirst-spatial-www v0.0.37
+	github.com/whosonfirst/go-whosonfirst-spatial-www v0.0.38
 )
 
 require (
@@ -52,7 +52,7 @@ require (
 	github.com/whosonfirst/go-whosonfirst-placetypes v0.3.0 // indirect
 	github.com/whosonfirst/go-whosonfirst-sources v0.1.0 // indirect
 	github.com/whosonfirst/go-whosonfirst-spatial v0.4.0 // indirect
-	github.com/whosonfirst/go-whosonfirst-spatial-pip v0.0.13 // indirect
+	github.com/whosonfirst/go-whosonfirst-spatial-pip v0.1.0 // indirect
 	github.com/whosonfirst/go-whosonfirst-spr-geojson v0.0.8 // indirect
 	github.com/whosonfirst/go-whosonfirst-spr/v2 v2.2.1 // indirect
 	github.com/whosonfirst/go-whosonfirst-sqlite-features v0.10.0 // indirect
