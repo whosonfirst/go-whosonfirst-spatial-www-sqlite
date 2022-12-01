@@ -79,7 +79,7 @@ For example:
 $> bin/server \
 	-enable-www \
 	-enable-tangram \
-	-spatial-database-uri 'sqlite:///?dsn=/usr/local/data/sfomuseum-data-architecture.db' \
+	-spatial-database-uri 'sqlite:///?dsn=modernc:///usr/local/data/sfomuseum-data-architecture.db' \
 	-nextzen-apikey {NEXTZEN_APIKEY} 
 ```
 
@@ -95,7 +95,7 @@ If you don't need, or want, to expose a user-facing interface simply remove the 
 
 ```
 $> bin/server \
-	-spatial-database-uri 'sqlite:///?dsn=/usr/local/data/sfomuseum-data-architecture.db' 
+	-spatial-database-uri 'sqlite:///?dsn=modernc:///usr/local/data/sfomuseum-data-architecture.db' 
 ```
 
 And then to query the point-in-polygon API you would do something like this:
@@ -141,7 +141,7 @@ By default, results are returned as a list of ["standard places response"](https
 ```
 $> bin/server \
 	-enable-geojson \
-	-spatial-database-uri 'sqlite:///?dsn=/usr/local/data/sfomuseum-data-architecture.db'
+	-spatial-database-uri 'sqlite:///?dsn=modernc:///usr/local/data/sfomuseum-data-architecture.db'
 ```
 
 And then:
@@ -198,7 +198,7 @@ For example, here's how we could index and serve a GeoJSON FeatureCollection of 
 
 ```
 $> ./bin/server \
-	-spatial-database-uri 'sqlite:///?dsn=:memory:' \
+	-spatial-database-uri 'sqlite:///?dsn=modernc://mem' \
 	-mode featurecollection://
 	/usr/local/data/footprint.geojson
 ```
@@ -221,8 +221,8 @@ If you want to enable the `properties` output format you would do this:
 $> ./bin/server \
    -enable-properties \
    -index-properties \   
-   -spatial-database-uri 'sqlite:///?dsn=:memory:' \
-   -properties-reader-uri 'sqlite:///?dsn=:memory:' \
+   -spatial-database-uri 'sqlite:///?dsn=modernc://mem' \
+   -properties-reader-uri 'sqlite:///?dsn=modernc://mem' \
    -mode featurecollection://
    /usr/local/data/footprint.geojson
 ```
@@ -246,8 +246,8 @@ If you want to enable the `geojson` output format you will need to create a loca
 ```
 $> ./bin/server \
 	-enable-geojson \
-	-spatial-database-uri 'sqlite:///?dsn=test4.db&index-geojson=true' \
-	-geojson-reader-uri 'sql://sqlite3/geojson/id/body?dsn=test4.db' \
+	-spatial-database-uri 'sqlite:///?dsn=modernc://cwd/test4.db&index-geojson=true' \
+	-geojson-reader-uri 'sql://sqlite/geojson/id/body?dsn=modernc://cwd/test4.db' \
 	-mode featurecollection://
 	/usr/local/data/footprint.geojson
 ```
@@ -308,7 +308,7 @@ In the "configuration" section you'll need to assign the following variables in 
 | WHOSONFIRST_LEAFLET_TILE_URL | _string_ | A valid slippy-tile URL that Leaflet can use for displaying map tiles. It is not possible (yet) to use Tangram.js for rendering map tiles when the `server` tool is deployed as a Lmabda function. |
 | WHOSONFIRST_PATH_PREFIX | _string_ | This should match the name of API Gateway deployment "stage" (discussed below) you associate with your Lambda function. |
 | WHOSONFIRST_SERVER_URI | `lambda://` | |
-| WHOSONFIRST_SPATIAL_DATABASE_URI | `sqlite://?dsn=/usr/local/data/whosonfirst.db` | |
+| WHOSONFIRST_SPATIAL_DATABASE_URI | `sqlite://?dsn=modernc:///usr/local/data/whosonfirst.db` | |
 
 You can also specify any of the other flags that the `server` tool accepts. The rules for assigning a command line flag as a environment variable are:
 
