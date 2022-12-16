@@ -33,6 +33,8 @@ func main() {
 
 Importantly this is a very thin wrapper around the application code defined in the [whosonfirst/go-whosonfirst-spatial-www](https://github.com/whosonfirst/go-whosonfirst-spatial-www) package to enable support for the [whosonfirst/go-whosonfirst-spatial-sqlite](https://github.com/whosonfirst/go-whosonfirst-spatial-sqlite) package.
 
+This document does not discuss _how_ the SQLite databases used to perform spatial operations are created. Please consult the documentation in the [whosonfirst/go-whosonfirst-spatial-sqlite](https://github.com/whosonfirst/go-whosonfirst-spatial-sqlite) package for details on creating these databases.
+
 ## Tools
 
 ```
@@ -282,7 +284,10 @@ In the "configuration" section you'll need to assign the following variables in 
 | Name | Value | Notes
 | --- | --- | --- |
 | WHOSONFIRST_ENABLE_WWW | `true` | |
-| WHOSONFIRST_LEAFLET_TILE_URL | _string_ | A valid slippy-tile URL that Leaflet can use for displaying map tiles. It is not possible (yet) to use Tangram.js for rendering map tiles when the `server` tool is deployed as a Lmabda function. |
+| WHOSONFIRST_ENABLE_CORS | true | |
+| WHOSONFIRST_CORS_ORIGIN | * | Or configure to taste. |
+| WHOSONFIRST_MAP_PROVIDER | _string_ | `leaflet`  It is not possible (yet) to use Tangram.js for rendering map tiles when the `server` tool is deployed as a Lambda function. | 
+| WHOSONFIRST_LEAFLET_TILE_URL | _string_ | A valid slippy-tile URL that Leaflet can use for displaying map tiles. |
 | WHOSONFIRST_PATH_PREFIX | _string_ | This should match the name of API Gateway deployment "stage" (discussed below) you associate with your Lambda function. |
 | WHOSONFIRST_SERVER_URI | `lambda://` | |
 | WHOSONFIRST_SPATIAL_DATABASE_URI | `sqlite://?dsn=modernc:///usr/local/data/whosonfirst.db` | |
@@ -321,3 +326,4 @@ Once deployed the `server` tool will be available at a URL like `{PREFIX}.execut
 * https://github.com/whosonfirst/go-whosonfirst-spatial-pip
 * https://github.com/whosonfirst/go-whosonfirst-spatial-sqlite
 * https://github.com/whosonfirst/go-whosonfirst-spatial-www
+* https://github.com/aaronland/go-http-maps
