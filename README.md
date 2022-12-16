@@ -1,5 +1,7 @@
 # go-whosonfirst-spatial-http-sqlite
 
+Go package implementing the `whosonfirst/go-whosonfirst-spatial-www` server application with support for `whosonfirst/go-whosonfirst-spatial-sqlite` databases.
+
 ## Important
 
 This is work in progress and not properly documented yet.
