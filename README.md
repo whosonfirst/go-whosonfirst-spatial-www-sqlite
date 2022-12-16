@@ -2,15 +2,38 @@
 
 Go package implementing the `whosonfirst/go-whosonfirst-spatial-www` server application with support for `whosonfirst/go-whosonfirst-spatial-sqlite` databases.
 
-## Important
+## Documentation
 
-This is work in progress and not properly documented yet.
+Documentation is incomplete at this time.
 
-_Some of the documentation in out of date, specifically documentation for "plain old GeoJSON"._
+## Example
+
+```
+package main
+
+import (
+	"context"
+	_ "github.com/whosonfirst/go-whosonfirst-spatial-sqlite"
+	"github.com/whosonfirst/go-whosonfirst-spatial-www/application/server"
+	"log"
+)
+
+func main() {
+
+	ctx := context.Background()
+	logger := log.Default()
+
+	err := server.Run(ctx, logger)
+
+	if err != nil {
+		logger.Fatal(err)
+	}
+}
+```
+
+Importantly this is a very thin wrapper around the application code defined in the [whosonfirst/go-whosonfirst-spatial-www](https://github.com/whosonfirst/go-whosonfirst-spatial-www) package to enable support for the [whosonfirst/go-whosonfirst-spatial-sqlite](https://github.com/whosonfirst/go-whosonfirst-spatial-sqlite) package.
 
 ## Tools
-
-To build binary versions of these tools run the `cli` Makefile target. For example:
 
 ```
 $> make cli
@@ -20,13 +43,13 @@ go build -mod vendor -o bin/server cmd/server/main.go
 ### server
 
 ```
-$> ./bin/server -h
+$>> ./bin/server -h
   -authenticator-uri string
     	A valid sfomuseum/go-http-auth URI. (default "null://")
   -cors-allow-credentials
-    	...
+    	Allow HTTP credentials to be included in CORS requests.
   -cors-origin value
-    	...
+    	One or more hosts to allow CORS requests from; may be a comma-separated list.
   -custom-placetypes string
     	A JSON-encoded string containing custom placetypes defined using the syntax described in the whosonfirst/go-whosonfirst-placetypes repository.
   -enable-cors
@@ -58,11 +81,11 @@ $> ./bin/server -h
   -leaflet-max-bounds string
     	An optional comma-separated bounding box ({MINX},{MINY},{MAXX},{MAXY}) to set the boundary for map views.
   -leaflet-tile-url string
-    	A valid Leaflet tile URL. Only necessary if -map-provider is "leaflet".
+    	A valid Leaflet 'tileLayer' layer URL. Only necessary if -map-provider is "leaflet".
   -log-timings
     	Emit timing metrics to the application's logger
   -map-provider string
-    	Valid options are: leaflet, protomaps, tangram
+    	The name of the map provider to use. Valid options are: leaflet, protomaps, tangram
   -nextzen-apikey string
     	A valid Nextzen API key. Only necessary if -map-provider is "tangram".
   -nextzen-style-url string
@@ -220,84 +243,6 @@ $> curl -s -XPOST -H 'Accept: application/geo+json' 'http://localhost:8080/api/p
 }  
 ```
 
-### Indexing "plain old" GeoJSON
-
-There is early support for indexing "plain old" GeoJSON, as in GeoJSON documents that do not following the naming conventions for properties that Who's On First documents use. It is very likely there are still bugs or subtle gotchas.
-
-For example, here's how we could index and serve a GeoJSON FeatureCollection of building footprints, using an in-memory SQLite database:
-
-```
-$> ./bin/server \
-	-spatial-database-uri 'sqlite:///?dsn=modernc://mem' \
-	-mode featurecollection://
-	/usr/local/data/footprint.geojson
-```
-
-And then:
-
-```
-$> curl -s 'http://localhost:8080/api/point-in-polygon?latitude=37.61686957521345&longitude=-122.3903158758416' \
-
-| jq '.["places"][]["wof:id"]'
-
-"1031"
-"1015"
-"1014"
-```
-
-If you want to enable the `properties` output format you would do this:
-
-```
-$> ./bin/server \
-   -enable-properties \
-   -index-properties \   
-   -spatial-database-uri 'sqlite:///?dsn=modernc://mem' \
-   -properties-reader-uri 'sqlite:///?dsn=modernc://mem' \
-   -mode featurecollection://
-   /usr/local/data/footprint.geojson
-```
-
-And then:
-
-```
-$> curl -s 'http://localhost:8080/api/point-in-polygon?latitude=37.61686957521345&longitude=-122.3903158758416&format=properties&properties=BUILDING' \
-
-| jq '.["properties"][]["BUILDING"]'
-
-"400"
-"400"
-"100"
-"100"
-"100"
-```
-
-If you want to enable the `geojson` output format you will need to create a local SQLite database, rather than an in-memory database. That's because the in-memory database created by the `-spatial-database-uri` flag is different from the in-memory database created by the `-geojson-reader-uri` flag. For example:
-
-```
-$> ./bin/server \
-	-enable-geojson \
-	-spatial-database-uri 'sqlite:///?dsn=modernc://cwd/test4.db&index-geojson=true' \
-	-geojson-reader-uri 'sql://sqlite/geojson/id/body?dsn=modernc://cwd/test4.db' \
-	-mode featurecollection://
-	/usr/local/data/footprint.geojson
-```
-
-And then:
-
-```
-$> curl -s 'http://localhost:8080/api/point-in-polygon?latitude=37.61686957521345&longitude=-122.3903158758416&format=geojson' \
-
-| jq '.["features"][]["properties"]["NAME"]'
-
-"Terminal 3"
-"International Terminal"
-"International Terminal"
-"International Terminal"
-"International Terminal"
-```
-
-Under the hood the code is using the [go-whosonfirst-sqlite-features](https://github.com/whosonfirst/go-whosonfirst-sqlite-features) package to index the "plain old" GeoJSON documents. You can also index your "plain old" GeoJSON documents ahead of time (using the [go-whosonfirst-sqlite-features-index](https://github.com/whosonfirst/go-whosonfirst-sqlite-features-index) package) to speed up start up times, as demonstrated in the examples at the top of this document.
-
 ## Docker
 
 The easiest thing is to run the `docker` Makefile target passing in the path to the database you want to bundle and the name of the container you want to produce.
@@ -320,6 +265,8 @@ naming to docker.io/library/spatial-sfomuseum-architecture
 ### Lambda
 
 It is possible to deploy the `server` tool as a "containerized Lambda function". The first thing you'll need to do is create the container (see above in the `Docker` section). After that you'll need to upload your container to your AWS ECS repository, the details of which are out of scope for this document.
+
+_Note: It is also possible to run the `server` tool as a plain-vanilla Lambda function with an EFS volume attached to it but that's even more complicated than the Docker/ECS scenario so that is also "out of scope" for the document. But it is possible (I've done it)._
 
 Next create a new Lambda function. For the sake of this example we'll call it `SpatialArchitecture` (to match the `spatial-sfomuseum-architecture` created above), choosing the "Container image" option. Associate the function with the container  you've created and uploaded to your ECS account.
 
@@ -371,5 +318,6 @@ Once deployed the `server` tool will be available at a URL like `{PREFIX}.execut
 ## See also
 
 * https://github.com/whosonfirst/go-whosonfirst-spatial
-* https://github.com/whosonfirst/go-whosonfirst-spatial-sqlite
 * https://github.com/whosonfirst/go-whosonfirst-spatial-pip
+* https://github.com/whosonfirst/go-whosonfirst-spatial-sqlite
+* https://github.com/whosonfirst/go-whosonfirst-spatial-www

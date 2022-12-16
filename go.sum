@@ -175,8 +175,8 @@ github.com/aaronland/go-http-bootstrap v0.1.0/go.mod h1:LBQ4TNCD74+4KKEmBIIzrMxe
 github.com/aaronland/go-http-leaflet v0.1.0/go.mod h1:M6Brt/UMWXsT+3qK5idwxr3y6kELHHi7OhgoiecMt6U=
 github.com/aaronland/go-http-leaflet v0.1.1 h1:ZSgVexM8utwYh01iPA/you8F+hGyUFewB0wp7RgVppk=
 github.com/aaronland/go-http-leaflet v0.1.1/go.mod h1:M6Brt/UMWXsT+3qK5idwxr3y6kELHHi7OhgoiecMt6U=
-github.com/aaronland/go-http-maps v0.0.7 h1:Ej/WqjSoeeFbPAfjbW87qs7eHseKgTP82Aw4Sco0Ljc=
-github.com/aaronland/go-http-maps v0.0.7/go.mod h1:jrAEG7EDSEuYnMxg7Qs6/IoT2EEMR2DDC6L/334324E=
+github.com/aaronland/go-http-maps v0.0.8 h1:Mnkzhxz1H1SZgNLAFAnhtfK3mD0nJRWiVMSaCObBuCM=
+github.com/aaronland/go-http-maps v0.0.8/go.mod h1:jrAEG7EDSEuYnMxg7Qs6/IoT2EEMR2DDC6L/334324E=
 github.com/aaronland/go-http-ping/v2 v2.0.0 h1:PO/CfpNwxPSMqEuDAA+2/IzSoArAa/0deSHCmCuvfiA=
 github.com/aaronland/go-http-ping/v2 v2.0.0/go.mod h1:fXKuw0WvfXMyt09ibXILN4LzEIhCnxoAhmZqoC5iBm8=
 github.com/aaronland/go-http-rewrite v0.0.6/go.mod h1:+Ehclg6SIiQPEJlSv3LR+8rojSSYPLGQuDf2z9bChpY=
@@ -1449,8 +1449,8 @@ github.com/whosonfirst/go-whosonfirst-spatial-pip v0.3.1 h1:j2QhDx8t4z0s3RJqvm+L
 github.com/whosonfirst/go-whosonfirst-spatial-pip v0.3.1/go.mod h1:klRSLQeAVdFZd84f0xfKjSmVj1L8JCF8GPdGUiVOqnA=
 github.com/whosonfirst/go-whosonfirst-spatial-sqlite v0.6.0 h1:4pKgmEh9M1MLF/XLkwyqtJAmdXgq3Q5ZysW7vxDCPKI=
 github.com/whosonfirst/go-whosonfirst-spatial-sqlite v0.6.0/go.mod h1:93WInmJvuLafMm4ChObmLzV8yBWCfUWrLpi6NsuYZsw=
-github.com/whosonfirst/go-whosonfirst-spatial-www v0.0.41 h1:BDDBcBTO1QFSmJCjDEdctafDxOpRhWF/8skWVwxI7vk=
-github.com/whosonfirst/go-whosonfirst-spatial-www v0.0.41/go.mod h1:vRp484OdBHi0OOL1Ft+UUTjUFdHyN5b2oIOzYIrzBJg=
+github.com/whosonfirst/go-whosonfirst-spatial-www v0.0.42 h1:6aRC3OdgTJ41e2YfRFeDIFNJ1FYd8xt23Z9Utg3FrHA=
+github.com/whosonfirst/go-whosonfirst-spatial-www v0.0.42/go.mod h1:641hDME74Ht+ubss/DRYVHX7N2uSZP4vOijfjLvgrEA=
 github.com/whosonfirst/go-whosonfirst-spr-geojson v0.0.8 h1:K0rCaKo0xvOtuS/x9r62bEfIK3OTdZqbDmgG+A3xDSs=
 github.com/whosonfirst/go-whosonfirst-spr-geojson v0.0.8/go.mod h1:Nh7PwBMDT1kUrp9jBMFw+Ilue6up1tz2KhE39btS/ZU=
 github.com/whosonfirst/go-whosonfirst-spr/v2 v2.3.3 h1:dc7BdkGrSKtGyIEO8jW4h6xS0DMdKANwMHFRc1+WcnM=
