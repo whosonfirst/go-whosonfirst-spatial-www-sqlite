@@ -3,8 +3,8 @@ module github.com/whosonfirst/go-whosonfirst-spatial-http-sqlite
 go 1.18
 
 require (
-	github.com/whosonfirst/go-whosonfirst-spatial-sqlite v0.6.0
-	github.com/whosonfirst/go-whosonfirst-spatial-www v0.0.42
+	github.com/whosonfirst/go-whosonfirst-spatial-sqlite v0.6.4
+	github.com/whosonfirst/go-whosonfirst-spatial-www v0.0.43
 )
 
 require (
@@ -26,7 +26,7 @@ require (
 	github.com/aaronland/go-sqlite/v2 v2.2.0 // indirect
 	github.com/aaronland/go-string v1.0.0 // indirect
 	github.com/akrylysov/algnhsa v0.12.1 // indirect
-	github.com/aws/aws-lambda-go v1.35.0 // indirect
+	github.com/aws/aws-lambda-go v1.36.0 // indirect
 	github.com/aws/aws-sdk-go v1.44.68 // indirect
 	github.com/bits-and-blooms/bitset v1.2.0 // indirect
 	github.com/dustin/go-humanize v1.0.0 // indirect
@@ -42,7 +42,7 @@ require (
 	github.com/kballard/go-shellquote v0.0.0-20180428030007-95032a82bc51 // indirect
 	github.com/mattn/go-isatty v0.0.16 // indirect
 	github.com/mattn/go-runewidth v0.0.13 // indirect
-	github.com/mattn/go-sqlite3 v1.14.16 // indirect
+	github.com/mattn/go-sqlite3 v1.14.15 // indirect
 	github.com/mitchellh/colorstring v0.0.0-20190213212951-d06e56a500db // indirect
 	github.com/mschoch/smat v0.2.0 // indirect
 	github.com/natefinch/atomic v1.0.1 // indirect
@@ -77,8 +77,8 @@ require (
 	github.com/whosonfirst/go-whosonfirst-names v0.1.0 // indirect
 	github.com/whosonfirst/go-whosonfirst-placetypes v0.4.2 // indirect
 	github.com/whosonfirst/go-whosonfirst-sources v0.1.0 // indirect
-	github.com/whosonfirst/go-whosonfirst-spatial v0.5.1 // indirect
-	github.com/whosonfirst/go-whosonfirst-spatial-pip v0.3.1 // indirect
+	github.com/whosonfirst/go-whosonfirst-spatial v0.5.4 // indirect
+	github.com/whosonfirst/go-whosonfirst-spatial-pip v0.3.2 // indirect
 	github.com/whosonfirst/go-whosonfirst-spr-geojson v0.0.8 // indirect
 	github.com/whosonfirst/go-whosonfirst-spr/v2 v2.3.3 // indirect
 	github.com/whosonfirst/go-whosonfirst-sqlite-features/v2 v2.0.0 // indirect
